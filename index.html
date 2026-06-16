@@ -6,42 +6,27 @@
   <title>BOF MEDIA | Premium Dijital Ajans</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: { 
-            bofBg: '#050816', 
-            bofPrimary: '#3B5FFF', 
-            bofMuted: '#8A90A5' 
-          },
-          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/11.3.31/framer-motion.min.js"></script>
-
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     body { 
       font-family: 'Inter', system-ui, sans-serif; 
       background-color: #050816; 
       color: #ffffff; 
-      overflow-x: hidden; 
     }
     .glass {
       background: rgba(255,255,255,0.015);
       backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
     }
     .hero-text {
-      font-size: clamp(3rem, 8vw, 7.2rem);
+      font-size: clamp(3.2rem, 8.5vw, 7.5rem);
       line-height: 0.95;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.05em;
     }
   </style>
 </head>
@@ -52,101 +37,95 @@
     const { useState, useEffect } = React;
     const { motion } = FramerMotion;
 
-    // ====================== NAVBAR ======================
     function Navbar() {
       const [scrolled, setScrolled] = useState(false);
-
       useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 30);
+        const handleScroll = () => setScrolled(window.scrollY > 40);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
       }, []);
 
       return React.createElement(motion.nav, {
-        initial: { y: -80 },
+        initial: { y: -100 },
         animate: { y: 0 },
-        className: `fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'py-5 bg-[#050816]/95 backdrop-blur-xl border-b border-white/5' : 'py-8 bg-transparent'}`
+        className: `fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'py-5 bg-[#050816]/95 backdrop-blur-xl border-b border-white/5' : 'py-8 bg-transparent'}`
       },
-        React.createElement('div', {
-          className: "max-w-screen-2xl mx-auto px-8 flex items-center justify-between"
-        },
+        React.createElement('div', { className: "max-w-screen-2xl mx-auto px-8 flex items-center justify-between" },
           React.createElement('a', { href: "#", className: "text-2xl font-semibold tracking-tighter" }, "BOF MEDIA"),
-          React.createElement('div', { className: "hidden md:flex items-center gap-10 text-sm font-medium" },
-            ['Hizmetler', 'Süreç', 'Projeler', 'Hakkımda'].map(item => 
-              React.createElement('a', {
-                key: item,
-                href: `#${item.toLowerCase()}`,
-                className: "text-[#8A90A5] hover:text-white transition-colors"
+          React.createElement('div', { className: "hidden md:flex gap-10 text-sm font-medium" },
+            ["Hizmetler","Süreç","Projeler","Hakkımda","İletişim"].map(item => 
+              React.createElement('a', { 
+                href: `#${item.toLowerCase()}`, 
+                className: "text-[#8A90A5] hover:text-white transition-colors" 
               }, item)
             )
           ),
-          React.createElement('a', {
-            href: "#iletisim",
-            className: "px-7 py-3.5 bg-[#3B5FFF] hover:bg-[#2e4fe6] rounded-2xl font-semibold text-sm transition-all"
+          React.createElement('a', { 
+            href: "#iletisim", 
+            className: "px-6 py-3 bg-[#3B5FFF] hover:bg-[#2e4fe6] rounded-2xl font-semibold text-sm transition-all" 
           }, "Ücretsiz Görüş")
         )
       );
     }
 
-    // ====================== HERO ======================
     function Hero() {
       const cards = [
-        { title: "KUŞADASI OTELİ", metric: "+38%", desc: "Rezervasyon artışı", tags: ["Mobil Öncelikli", "SEO", "Hızlı Teslim"] },
-        { title: "PREMIUM RESTORAN", metric: "+57%", desc: "Online sipariş artışı", tags: ["QR Menü", "Rezervasyon", "Hız Optimizasyonu"] },
-        { title: "AI ASİSTAN", metric: "7/24", desc: "Otomatik müşteri desteği", tags: ["OpenAI", "Otomasyon"] }
+        { title: "KUŞADASI OTELİ", metric: "+38%", desc: "Daha fazla rezervasyon", tags: ["Mobil Uyumlu", "Google SEO", "2 Haftada Teslim"] },
+        { title: "RESTORAN SİTESİ", metric: "+57%", desc: "Online rezervasyon artışı", tags: ["Hız Optimize", "QR Menü"] },
+        { title: "AI MÜŞTERİ ASİSTANI", metric: "7/24", desc: "Otomatik cevap", tags: ["Otomasyon", "Entegrasyon"] }
       ];
 
-      return React.createElement('section', {
-        className: "relative min-h-screen pt-32 pb-24 flex items-center px-6 max-w-screen-2xl mx-auto"
-      },
-        React.createElement('div', { className: "grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center w-full" },
-          // Sol taraf
-          React.createElement('div', { className: "lg:col-span-7 space-y-10" },
-            React.createElement('div', { className: "inline-flex items-center gap-3 px-5 py-2 rounded-3xl bg-white/5 border border-white/10" },
-              React.createElement('div', { className: "w-2 h-2 rounded-full bg-emerald-500 animate-pulse" }),
-              React.createElement('span', { className: "font-medium" }, "Yeni projeler kabul ediliyor")
+      return React.createElement('section', { className: "min-h-screen pt-32 pb-20 flex items-center relative overflow-hidden" },
+        React.createElement('div', { className: "max-w-screen-2xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center" },
+          
+          // Sol Taraf
+          React.createElement('div', { className: "lg:col-span-7 space-y-8" },
+            React.createElement('div', { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm" },
+              React.createElement('span', { className: "w-2 h-2 bg-emerald-500 rounded-full animate-pulse" }), 
+              "Yeni proje kabul ediyorum"
             ),
-            React.createElement('h1', {
-              className: "hero-text font-semibold tracking-tighter leading-none"
-            }, "Web sitesinden fazlası.\nİşletmenizi internette büyütüyoruz."),
-            React.createElement('p', {
-              className: "max-w-lg text-xl text-[#8A90A5]"
-            }, "Premium dijital deneyimler ve yapay zeka çözümleriyle markanızı rakiplerinden ayırıyoruz."),
-            React.createElement('div', { className: "flex flex-wrap gap-4" },
-              React.createElement('a', {
-                href: "#projeler",
-                className: "px-10 py-5 bg-[#3B5FFF] hover:bg-[#2e4fe6] rounded-3xl font-semibold text-lg"
-              }, "Projeleri İncele"),
-              React.createElement('a', {
-                href: "https://wa.me/905555555555",
+            React.createElement('h1', { className: "hero-text font-bold tracking-tighter" }, 
+              "Web Sitesinden Fazlası.\nİşletmenizi\nİnternette\nBüyüten\nDijital Deneyimler."
+            ),
+            React.createElement('p', { className: "text-xl text-[#8A90A5] max-w-lg" }, 
+              "Modern web siteleri, yapay zeka otomasyonları ve güçlü dijital deneyimler tasarlıyorum."
+            ),
+            React.createElement('div', { className: "flex gap-4" },
+              React.createElement('a', { 
+                href: "#projeler", 
+                className: "px-8 py-4 bg-[#3B5FFF] hover:bg-[#2e4fe6] rounded-2xl font-semibold text-lg transition-all" 
+              }, "Çalışmalarımı Gör"),
+              React.createElement('a', { 
+                href: "https://wa.me/905555555555", 
                 target: "_blank",
-                className: "px-10 py-5 border border-white/20 hover:bg-white/5 rounded-3xl font-semibold text-lg"
+                className: "px-8 py-4 border border-white/20 hover:bg-white/5 rounded-2xl font-semibold text-lg transition-all" 
               }, "WhatsApp'tan Yaz")
             )
           ),
-          // Sağ kartlar
+
+          // Sağ Taraf - Kartlar
           React.createElement('div', { className: "lg:col-span-5 space-y-6" },
             cards.map((card, i) => 
               React.createElement(motion.div, {
                 key: i,
-                initial: { opacity: 0, y: 40 },
+                initial: { opacity: 0, y: 60 },
                 animate: { opacity: 1, y: 0 },
-                transition: { delay: 0.1 * i },
-                whileHover: { y: -8 },
-                className: "glass border border-white/10 rounded-3xl p-8"
+                transition: { delay: 0.15 * i },
+                whileHover: { y: -12, transition: { duration: 0.4 } },
+                className: "glass rounded-3xl p-8"
               },
-                React.createElement('div', { className: "flex justify-between items-start mb-6" },
+                React.createElement('div', { className: "flex justify-between" },
                   React.createElement('div', null,
                     React.createElement('div', { className: "uppercase text-xs tracking-widest text-[#8A90A5]" }, card.title),
-                    React.createElement('div', { className: "text-6xl font-bold text-[#3B5FFF] tracking-tighter" }, card.metric)
+                    React.createElement('div', { className: "text-5xl font-bold text-[#3B5FFF] tracking-tighter mt-2" }, card.metric)
                   )
                 ),
-                React.createElement('p', { className: "text-white/90 mb-6" }, card.desc),
-                React.createElement('div', { className: "flex flex-wrap gap-2" },
+                React.createElement('p', { className: "mt-6 text-lg" }, card.desc),
+                React.createElement('div', { className: "mt-6 flex flex-wrap gap-2" },
                   card.tags.map(tag => 
-                    React.createElement('span', {
+                    React.createElement('span', { 
                       key: tag,
-                      className: "text-xs px-4 py-1 bg-white/5 border border-white/10 rounded-2xl"
+                      className: "text-xs px-4 py-2 bg-white/5 border border-white/10 rounded-2xl" 
                     }, tag)
                   )
                 )
@@ -157,16 +136,44 @@
       );
     }
 
-    // ====================== ANA UYGULAMA ======================
-    function App() {
-      return React.createElement('div', { className: "min-h-screen bg-[#050816]" },
-        React.createElement(Navbar),
-        React.createElement(Hero)
-        // Diğer bölümleri istersen ekleyebilirim, ama önce bu çalışsın
+    // Diğer bileşenler (kısaltılmış ama premium)
+    function Trust() {
+      const features = [
+        {icon:"⚡", title:"Hızlı Teslim"},
+        {icon:"📱", title:"Mobil Uyumlu"},
+        {icon:"🔍", title:"SEO Uyumlu"},
+        {icon:"🤖", title:"Yapay Zeka Entegrasyonu"}
+      ];
+
+      return React.createElement('section', { id: "hizmetler", className: "py-32 border-t border-white/5" },
+        React.createElement('div', { className: "max-w-screen-2xl mx-auto px-8" },
+          React.createElement('h2', { className: "text-5xl font-semibold text-center mb-16" }, "İşletmeler Neden BOF MEDIA'yı Seçiyor?"),
+          React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-4 gap-6" },
+            features.map((f,i) => 
+              React.createElement(motion.div, {
+                initial: { opacity: 0, y: 30 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true },
+                className: "glass rounded-3xl p-10 text-center"
+              },
+                React.createElement('div', { className: "text-5xl mb-6" }, f.icon),
+                React.createElement('h3', { className: "text-2xl font-semibold" }, f.title)
+              )
+            )
+          )
+        )
       );
     }
 
-    // Render
+    function App() {
+      return React.createElement('div', {},
+        React.createElement(Navbar),
+        React.createElement(Hero),
+        React.createElement(Trust)
+        // İstersen Portfolio, Process, About, CTA, Footer da ekleyebilirim
+      );
+    }
+
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(React.createElement(App));
   </script>
