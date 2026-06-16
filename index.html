@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr" class="scroll-smooth">
 <head>
@@ -9,6 +10,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      content: [],
       theme: {
         extend: {
           colors: { 
@@ -16,20 +18,29 @@
             bofPrimary: '#3B5FFF', 
             bofMuted: '#8A90A5' 
           },
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          animation: { 'subtle-float': 'float 6s ease-in-out infinite' },
+          fontFamily: { 
+            sans: ['Inter', 'system-ui', 'sans-serif'] 
+          },
+          animation: { 
+            'subtle-float': 'float 8s ease-in-out infinite',
+            'fade-in': 'fadeIn 0.8s ease-out forwards'
+          },
           keyframes: { 
             float: { 
               '0%, 100%': { transform: 'translateY(0px)' }, 
-              '50%': { transform: 'translateY(-8px)' } 
-            } 
+              '50%': { transform: 'translateY(-12px)' } 
+            },
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            }
           }
         }
       }
     }
   </script>
 
-  <!-- ES Modules Import Map (Modern React ve Framer Motion için) -->
+  <!-- ES Modules Import Map -->
   <script type="importmap">
     {
       "imports": {
@@ -40,64 +51,100 @@
     }
   </script>
 
-  <!-- Babel (Tarayıcıda React Derleyicisi) -->
+  <!-- Babel -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- Tipografi: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
   
   <style>
     body { 
-      font-family: 'Inter', sans-serif; 
+      font-family: 'Inter', system-ui, sans-serif; 
       background-color: #050816; 
       color: #ffffff; 
       overflow-x: hidden; 
     }
-    /* Premium Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #050816; }
-    ::-webkit-scrollbar-thumb { background: #1a1f3c; border-radius: 10px; }
+    
+    ::-webkit-scrollbar { 
+      width: 6px; 
+    }
+    ::-webkit-scrollbar-track { 
+      background: #050816; 
+    }
+    ::-webkit-scrollbar-thumb { 
+      background: #1f253f; 
+      border-radius: 10px; 
+    }
+    ::-webkit-scrollbar-thumb:hover { 
+      background: #3B5FFF; 
+    }
+
+    .hero-text {
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.015);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
-  <!-- UYGULAMA KODLARI (React & Framer Motion) -->
   <script type="text/babel" data-type="module">
     import React, { useState, useEffect } from 'react';
     import { createRoot } from 'react-dom/client';
-    import { motion } from 'framer-motion';
+    import { motion, useScroll, useTransform } from 'framer-motion';
 
-    // ==========================================
-    // 1. NAVBAR BİLEŞENİ
-    // ==========================================
+    // NAVBAR
     const Navbar = () => {
       const [scrolled, setScrolled] = useState(false);
+
       useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', handleScroll);
+        const handleScroll = () => setScrolled(window.scrollY > 30);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
       }, []);
 
       return (
         <motion.nav 
-          initial={{ y: -20, opacity: 0 }} 
-          animate={{ y: 0, opacity: 1 }} 
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${
-            scrolled ? 'bg-bofBg/70 backdrop-blur-md border-white/[0.06] py-4' : 'bg-transparent border-transparent py-6'
+          initial={{ y: -80 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+            scrolled 
+              ? 'py-5 bg-bofBg/90 backdrop-blur-xl border-b border-white/5' 
+              : 'py-8 bg-transparent'
           }`}
         >
-          <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-            <a href="#" className="text-xl font-bold tracking-tighter">BOF MEDIA</a>
-            <div className="hidden md:flex gap-8">
-              {['Hizmetler', 'Süreç', 'Projeler', 'Hakkımda', 'İletişim'].map(item => (
-                <a key={item} href={`#${item.toLowerCase()}`} className="text-sm text-bofMuted hover:text-white transition-colors duration-300">
-                  {item}
+          <div className="max-w-screen-2xl mx-auto px-8 flex items-center justify-between">
+            <a href="#" className="text-2xl font-semibold tracking-tighter text-white">BOF MEDIA</a>
+            
+            <div className="hidden md:flex items-center gap-10 text-sm font-medium">
+              {[
+                { label: 'Hizmetler', id: 'hizmetler' },
+                { label: 'Süreç', id: 'süreç' },
+                { label: 'Projeler', id: 'projeler' },
+                { label: 'Hakkımda', id: 'hakkımda' }
+              ].map(item => (
+                <a 
+                  key={item.id} 
+                  href={`#${item.id}`} 
+                  className="text-bofMuted hover:text-white transition-colors duration-200"
+                >
+                  {item.label}
                 </a>
               ))}
             </div>
-            <a href="#iletisim" className="bg-bofPrimary hover:bg-bofPrimary/90 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-all shadow-lg shadow-bofPrimary/20">
+
+            <a 
+              href="#iletisim" 
+              className="px-6 py-3 bg-bofPrimary hover:bg-[#2e4fe6] text-white text-sm font-semibold rounded-2xl transition-all active:scale-[0.985]"
+            >
               Ücretsiz Görüş
             </a>
           </div>
@@ -105,205 +152,151 @@
       );
     };
 
-    // ==========================================
-    // 2. HERO BİLEŞENİ
-    // ==========================================
+    // HERO
     const Hero = () => {
       const cards = [
-        { title: "KUŞADASI OTELİ", metric: "+38%", desc: "Daha fazla rezervasyon", tags: ["Mobil Uyumlu", "Google SEO", "2 Haftada Teslim"] },
-        { title: "RESTORAN SİTESİ", metric: "+57%", desc: "Online rezervasyon artışı", tags: ["Hız Optimize", "QR Menü"] },
-        { title: "AI MÜŞTERİ ASİSTANI", metric: "7/24", desc: "Otomatik cevap", tags: ["Otomasyon", "Entegrasyon"] }
+        { 
+          title: "KUŞADASI OTELİ", 
+          metric: "+38%", 
+          desc: "Rezervasyon artışı", 
+          tags: ["Mobil Öncelikli", "SEO Optimizasyonu", "2 Haftada Canlı"] 
+        },
+        { 
+          title: "PREMIUM RESTORAN", 
+          metric: "+57%", 
+          desc: "Online sipariş & rezervasyon", 
+          tags: ["Hız Optimizasyonu", "QR Menü", "Rezervasyon Sistemi"] 
+        },
+        { 
+          title: "AI MÜŞTERİ ASİSTANI", 
+          metric: "7/24", 
+          desc: "Otomatik destek & lead toplama", 
+          tags: ["OpenAI Entegrasyonu", "CRM Bağlantısı"] 
+        }
       ];
 
       return (
-        <section className="relative pt-44 pb-32 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          {/* Hafif Işık Hüzmesi */}
-          <div className="absolute top-1/4 left-1/4 -z-10 w-[600px] h-[300px] bg-bofPrimary/5 blur-[120px] rounded-full pointer-events-none" />
+        <section className="relative min-h-screen pt-32 pb-24 flex items-center px-6 max-w-screen-2xl mx-auto">
+          {/* Subtle background accent */}
+          <div className="absolute inset-0 bg-[radial-gradient(at_30%_20%,rgba(59,95,255,0.08)_0%,transparent_50%)] pointer-events-none" />
           
-          {/* Sol Kısım */}
-          <div className="lg:col-span-7 space-y-8">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} 
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.06] text-xs font-medium text-white/90 tracking-wide"
-            >
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              ● Yeni proje kabul ediyorum
-            </motion.div>
-            
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} 
-              className="text-5xl md:text-[80px] lg:text-[120px] font-bold tracking-tighter leading-[0.9] text-white"
-            >
-              Web Sitesinden Fazlası.<br/>İşletmenizi<br/>İnternette<br/>Büyüten<br/>
-              <span className="text-bofPrimary">Dijital Deneyimler.</span>
-            </motion.h1>
-            
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} 
-              className="text-lg md:text-xl text-bofMuted font-normal max-w-xl leading-relaxed"
-            >
-              Modern web siteleri, yapay zeka otomasyonları ve güçlü dijital deneyimler tasarlıyorum.
-            </motion.p>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} 
-              className="flex flex-wrap gap-4 pt-4"
-            >
-              <a href="#projeler" className="bg-bofPrimary hover:bg-bofPrimary/90 text-white font-medium px-8 py-4 rounded-xl transition-all shadow-xl shadow-bofPrimary/10">
-                Çalışmalarımı Gör
-              </a>
-              <a href="https://wa.me/1234567890" target="_blank" className="bg-transparent hover:bg-white/[0.02] border border-white/[0.08] text-white font-medium px-8 py-4 rounded-xl transition-all">
-                WhatsApp'tan Yaz
-              </a>
-            </motion.div>
-          </div>
-
-          {/* Sağ Kısım - Metrik Kartları */}
-          <div className="lg:col-span-5 space-y-5 relative">
-            {cards.map((card, i) => (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center w-full">
+            {/* Left Content */}
+            <div className="lg:col-span-7 space-y-10">
               <motion.div 
-                key={i} 
-                initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} 
-                transition={{ duration: 0.8, delay: 0.2 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.02)' }}
-                className="animate-subtle-float bg-white/[0.01] border border-white/[0.04] backdrop-blur-sm rounded-2xl p-6 flex items-center justify-between gap-6 transition-all duration-300"
-                style={{ animationDelay: `${i * 1.5}s` }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="inline-flex items-center gap-3 px-5 py-2 rounded-3xl bg-white/[0.03] border border-white/10 text-sm"
               >
-                <div className="space-y-2">
-                  <span className="text-[11px] font-bold tracking-widest text-bofMuted uppercase">{card.title}</span>
-                  <p className="text-sm text-white/90 font-medium">{card.desc}</p>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {card.tags.map(t => (
-                      <span key={t} className="text-[10px] bg-white/[0.02] border border-white/[0.04] text-bofMuted px-2 py-0.5 rounded">{t}</span>
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-medium tracking-wide text-white/90">Yeni projeler için yer var</span>
+              </motion.div>
+
+              <h1 className="hero-text font-semibold tracking-tighter text-white leading-none">
+                Web sitesinden fazlası.<br />
+                İşletmenizi{' '}
+                <span className="bg-gradient-to-r from-white via-bofPrimary to-white bg-clip-text text-transparent">internette</span><br />
+                büyütüyoruz.
+              </h1>
+
+              <p className="max-w-lg text-xl text-bofMuted leading-relaxed">
+                Premium web deneyimleri, yapay zeka otomasyonları ve stratejik dijital çözümlerle markanızı rakiplerinden ayırıyoruz.
+              </p>
+
+              <div className="flex flex-wrap gap-4 pt-4">
+                <motion.a 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.985 }}
+                  href="#projeler"
+                  className="px-10 py-5 bg-bofPrimary hover:bg-[#2e4fe6] text-white font-semibold rounded-3xl text-lg transition-all shadow-xl shadow-bofPrimary/20"
+                >
+                  Projeleri İncele
+                </motion.a>
+                
+                <motion.a 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.985 }}
+                  href="https://wa.me/905555555555" 
+                  target="_blank"
+                  className="px-10 py-5 border border-white/20 hover:bg-white/5 rounded-3xl text-lg font-semibold transition-all"
+                >
+                  WhatsApp'tan İletişime Geç
+                </motion.a>
+              </div>
+            </div>
+
+            {/* Right Cards */}
+            <div className="lg:col-span-5 space-y-6">
+              {cards.map((card, index) => (
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + index * 0.1, duration: 0.7 }}
+                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                  className="glass border border-white/10 rounded-3xl p-8 group"
+                >
+                  <div className="flex justify-between items-start mb-8">
+                    <div>
+                      <div className="uppercase text-[10px] tracking-[2px] text-bofMuted font-mono mb-1">{card.title}</div>
+                      <div className="text-5xl font-semibold tracking-tighter text-bofPrimary">{card.metric}</div>
+                    </div>
+                    <div className="text-4xl opacity-30 group-hover:opacity-50 transition-opacity">↗</div>
+                  </div>
+                  
+                  <p className="text-white/90 mb-6">{card.desc}</p>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    {card.tags.map((tag, i) => (
+                      <span key={i} className="text-xs px-4 py-1.5 bg-white/5 border border-white/10 rounded-2xl text-bofMuted">
+                        {tag}
+                      </span>
                     ))}
                   </div>
-                </div>
-                <div className="text-3xl font-bold tracking-tighter text-bofPrimary">{card.metric}</div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-bofMuted text-xs tracking-widest">
+            <div>SCROLL</div>
+            <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.5 }} className="text-xl">↓</motion.div>
           </div>
         </section>
       );
     };
 
-    // ==========================================
-    // 3. GÜVEN (TRUST) BİLEŞENİ
-    // ==========================================
+    // TRUST / FEATURES
     const Trust = () => {
       const features = [
-        { icon: "⚡", title: "Hızlı Teslim" },
-        { icon: "📱", title: "Mobil Uyumlu" },
-        { icon: "🔍", title: "SEO Uyumlu" },
-        { icon: "🤖", title: "Yapay Zeka Entegrasyonu" }
+        { icon: "⚡", title: "Hızlı Teslim", desc: "Ortalama 3-4 haftada canlıya alma" },
+        { icon: "📱", title: "Mobil Öncelikli", desc: "Mükemmel mobil deneyim" },
+        { icon: "🔍", title: "SEO Odaklı", desc: "Arama motorlarında üst sıralar" },
+        { icon: "🤖", title: "AI Entegrasyonları", desc: "Modern otomasyonlar" }
       ];
-      return (
-        <section id="hizmetler" className="py-32 px-6 max-w-7xl mx-auto border-t border-white/[0.04]">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-center mb-16">İşletmeler Neden BOF MEDIA'yı Seçiyor?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((f, i) => (
-              <motion.div 
-                key={i} 
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} 
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                whileHover={{ y: -4, borderColor: 'rgba(255,255,255,0.08)' }}
-                className="bg-white/[0.01] border border-white/[0.03] rounded-2xl p-8 backdrop-blur-sm flex flex-col items-center text-center gap-4 transition-all"
-              >
-                <div className="text-2xl w-12 h-12 flex items-center justify-center rounded-xl bg-white/[0.02] border border-white/[0.05]">{f.icon}</div>
-                <h3 className="text-lg font-medium tracking-tight text-white/90">{f.title}</h3>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-      );
-    };
 
-    // ==========================================
-    // 4. PORTFOLYO BİLEŞENİ
-    // ==========================================
-    const Portfolio = () => {
-      const projects = [
-        { type: "OTEL", desc: "Lüks oteller için premium dönüşüm odaklı web deneyimi.", techs: ["React", "Tailwind", "Framer"], result: "+38% Rezervasyon Artışı" },
-        { type: "RESTORAN", desc: "Menü ve online sipariş akışını optimize eden kurumsal arayüz.", techs: ["Next.js", "UI/UX"], result: "+57% Dijital Ciro" },
-        { type: "AI OTOMASYON", desc: "Müşteri ilişkilerini otomatize eden yapay zeka altyapısı.", techs: ["Python", "OpenAI API"], result: "%40 Operasyon Tasarrufu" }
-      ];
       return (
-        <section id="projeler" className="py-32 border-t border-white/[0.04] w-full">
-          <div className="max-w-7xl mx-auto px-6 mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Gerçek Sonuçlar.</h2>
-            <p className="text-lg text-bofMuted max-w-xl leading-relaxed">
-              Tasarladığım her proje estetik görünmek için değil, işletmeye müşteri kazandırmak için yapılır.
-            </p>
-          </div>
-          <div className="max-w-7xl mx-auto px-6 space-y-12">
-            {projects.map((p, i) => (
-              <motion.div 
-                key={i} 
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
-                className="group grid grid-cols-1 lg:grid-cols-12 bg-white/[0.01] border border-white/[0.04] rounded-[2rem] overflow-hidden hover:border-white/[0.08] transition-all duration-300"
-              >
-                {/* Sol Görsel Alanı (Sahte mockup yok, mimari yapı) */}
-                <div className="lg:col-span-7 p-12 bg-white/[0.015] flex items-center justify-center min-h-[400px] border-b lg:border-b-0 lg:border-r border-white/[0.04] relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-bofPrimary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="w-full max-w-md h-full border border-white/[0.05] bg-bofBg rounded-xl p-6 shadow-2xl flex flex-col gap-4 relative z-10">
-                     <div className="flex justify-between border-b border-white/[0.05] pb-4">
-                       <div className="w-20 h-2 bg-white/[0.05] rounded-full"/>
-                       <div className="w-8 h-2 bg-bofPrimary/20 rounded-full"/>
-                     </div>
-                     <div className="w-full h-3 bg-white/[0.03] rounded-full"/>
-                     <div className="w-2/3 h-3 bg-white/[0.03] rounded-full"/>
-                     <div className="flex-1 mt-4 bg-white/[0.01] border border-white/[0.04] rounded-lg flex items-center justify-center text-[10px] text-bofMuted font-mono uppercase tracking-widest">
-                       [ {p.type} GERÇEK ARAYÜZ ]
-                     </div>
-                  </div>
-                </div>
-                {/* Sağ Bilgi Alanı */}
-                <div className="lg:col-span-5 p-12 flex flex-col justify-center gap-6">
-                  <span className="text-xs font-bold tracking-widest text-bofPrimary">{p.type}</span>
-                  <p className="text-xl text-white/90 font-medium leading-relaxed">{p.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {p.techs.map(t => <span key={t} className="text-[11px] bg-white/[0.02] border border-white/[0.05] text-bofMuted px-3 py-1.5 rounded-full">{t}</span>)}
-                  </div>
-                  <div className="pt-6 border-t border-white/[0.04]">
-                    <span className="text-xs text-bofMuted block mb-2 uppercase tracking-wider">Elde Edilen Sonuç</span>
-                    <span className="text-2xl font-bold tracking-tight text-emerald-400">{p.result}</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-      );
-    };
+        <section id="hizmetler" className="py-32 border-t border-white/5">
+          <div className="max-w-screen-2xl mx-auto px-8">
+            <div className="text-center mb-20">
+              <h2 className="text-5xl font-semibold tracking-tighter">Neden BOF MEDIA?</h2>
+              <p className="mt-4 text-bofMuted text-xl max-w-md mx-auto">Her detayı işletmenizin büyümesi için tasarlıyoruz.</p>
+            </div>
 
-    // ==========================================
-    // 5. SÜREÇ BİLEŞENİ
-    // ==========================================
-    const Process = () => {
-      const steps = [
-        { num: "1", title: "Sizi Dinliyorum" },
-        { num: "2", title: "Strateji Oluşturuyorum" },
-        { num: "3", title: "Tasarlıyor ve Geliştiriyorum" },
-        { num: "4", title: "Teslim ve Destek" }
-      ];
-      return (
-        <section id="süreç" className="py-32 border-t border-white/[0.04] px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl font-bold tracking-tight mb-20">Nasıl Çalışıyorum?</h2>
-            <div className="flex flex-col items-center gap-6">
-              {steps.map((s, i) => (
-                <React.Fragment key={i}>
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.5 }}
-                    className="bg-white/[0.01] border border-white/[0.05] px-8 py-5 rounded-2xl w-full max-w-sm flex items-center justify-between backdrop-blur-sm"
-                  >
-                    <span className="text-bofPrimary font-bold text-xl">{s.num}</span>
-                    <h3 className="text-lg font-medium text-white/90">{s.title}</h3>
-                    <div className="w-4" /> {/* Spacer */}
-                  </motion.div>
-                  {i !== steps.length - 1 && (
-                    <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="text-bofMuted/50 text-xl font-light">↓</motion.div>
-                  )}
-                </React.Fragment>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {features.map((f, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="glass border border-white/10 rounded-3xl p-10 h-full flex flex-col"
+                >
+                  <div className="text-4xl mb-8">{f.icon}</div>
+                  <h3 className="text-2xl font-semibold mb-3">{f.title}</h3>
+                  <p className="text-bofMuted mt-auto">{f.desc}</p>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -311,91 +304,228 @@
       );
     };
 
-    // ==========================================
-    // 6. HAKKIMDA BİLEŞENİ
-    // ==========================================
+    // PORTFOLIO
+    const Portfolio = () => {
+      const projects = [
+        {
+          category: "OTEL",
+          title: "Kuşadası Boutique Hotel",
+          desc: "Rezervasyon dönüşümünü %38 artıran premium web deneyimi",
+          tech: ["Next.js", "Tailwind", "Framer Motion", "Supabase"],
+          result: "+38% Rezervasyon",
+          accent: "bg-gradient-to-br from-amber-400/10 to-transparent"
+        },
+        {
+          category: "RESTORAN",
+          title: "Deniz Mahallesi Restoran",
+          desc: "QR menü ve online rezervasyon sistemi ile ciroyu artırdı",
+          tech: ["React", "Node.js", "Stripe", "Resend"],
+          result: "+57% Online Sipariş",
+          accent: "bg-gradient-to-br from-rose-400/10 to-transparent"
+        },
+        {
+          category: "SAAS",
+          title: "AI Müşteri Destek Asistanı",
+          desc: "Lead toplama ve 7/24 otomatik yanıt sistemi",
+          tech: ["Python", "OpenAI", "FastAPI", "PostgreSQL"],
+          result: "40% Operasyon Tasarrufu",
+          accent: "bg-gradient-to-br from-cyan-400/10 to-transparent"
+        }
+      ];
+
+      return (
+        <section id="projeler" className="py-32 border-t border-white/5 bg-black/40">
+          <div className="max-w-screen-2xl mx-auto px-8">
+            <div className="flex flex-col lg:flex-row lg:items-end gap-6 mb-16">
+              <div>
+                <h2 className="text-6xl font-semibold tracking-tighter">Gerçek Sonuçlar</h2>
+                <p className="text-2xl text-bofMuted mt-4 max-w-lg">Estetik değil, iş yapan dijital ürünler.</p>
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              {projects.map((project, index) => (
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, y: 60 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="group grid md:grid-cols-12 bg-zinc-950 border border-white/10 rounded-3xl overflow-hidden hover:border-white/20 transition-colors"
+                >
+                  <div className={`md:col-span-7 aspect-video lg:aspect-auto flex items-center justify-center p-12 relative ${project.accent}`}>
+                    <div className="w-full max-w-[520px] border border-white/10 bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden">
+                      <div className="h-9 bg-zinc-950 flex items-center px-4 gap-2">
+                        <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                        <div className="w-3 h-3 rounded-full bg-amber-500/80" />
+                        <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
+                      </div>
+                      <div className="aspect-video bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center text-xs font-mono text-white/30 tracking-widest">
+                        {project.category} • LIVE PREVIEW
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="md:col-span-5 p-12 lg:p-16 flex flex-col">
+                    <div className="uppercase font-mono text-xs tracking-[3px] text-bofPrimary mb-2">{project.category}</div>
+                    <h3 className="text-3xl font-semibold leading-none tracking-tight mb-6">{project.title}</h3>
+                    <p className="text-lg text-bofMuted mb-8">{project.desc}</p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-12">
+                      {project.tech.map(t => (
+                        <span key={t} className="text-xs px-5 py-2 border border-white/10 rounded-2xl text-bofMuted">{t}</span>
+                      ))}
+                    </div>
+                    
+                    <div className="mt-auto pt-8 border-t border-white/10">
+                      <div className="text-emerald-400 font-semibold text-2xl tracking-tight">{project.result}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // PROCESS
+    const Process = () => {
+      const steps = [
+        { num: "01", title: "Keşif & Dinleme", desc: "İş hedeflerinizi ve vizyonunuzu derinlemesine anlıyoruz." },
+        { num: "02", title: "Strateji & Planlama", desc: "Veri odaklı bir yol haritası oluşturuyoruz." },
+        { num: "03", title: "Tasarım & Geliştirme", desc: "Premium arayüzler ve güçlü backend altyapısı." },
+        { num: "04", title: "Teslim & Destek", desc: "Canlıya alma, eğitim ve uzun vadeli destek." }
+      ];
+
+      return (
+        <section id="süreç" className="py-32 border-t border-white/5">
+          <div className="max-w-screen-2xl mx-auto px-8">
+            <div className="max-w-2xl">
+              <h2 className="text-6xl font-semibold tracking-tighter mb-6">Nasıl Çalışıyoruz?</h2>
+              <p className="text-bofMuted text-xl">Şeffaf, düzenli ve sonuç odaklı bir süreç.</p>
+            </div>
+
+            <div className="mt-20 grid md:grid-cols-2 gap-8">
+              {steps.map((step, index) => (
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="glass border border-white/10 p-10 rounded-3xl group"
+                >
+                  <div className="font-mono text-bofPrimary text-5xl mb-6 tracking-tighter group-hover:text-white transition-colors">{step.num}</div>
+                  <h3 className="text-3xl font-semibold mb-4">{step.title}</h3>
+                  <p className="text-bofMuted">{step.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // ABOUT
     const About = () => {
       return (
-        <section id="hakkımda" className="py-32 border-t border-white/[0.04] px-6">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Ben kimim?</h2>
-              <p className="text-xl text-white font-medium leading-relaxed">
-                BOF MEDIA'nın kurucusuyum.
-              </p>
-              <p className="text-lg text-bofMuted leading-relaxed">
-                İşletmelerin internette daha profesyonel görünmesi ve daha fazla müşteri kazanması için modern web siteleri, yapay zeka çözümleri ve otomasyon sistemleri geliştiriyorum.
-              </p>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="flex justify-center lg:justify-end">
-              <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full border border-white/[0.05] bg-white/[0.01] flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-bofPrimary/10 to-transparent opacity-60" />
-                <div className="text-bofMuted text-xs font-mono tracking-widest z-10">[ PROFİL FOTOĞRAFI ALANI ]</div>
+        <section id="hakkımda" className="py-32 border-t border-white/5">
+          <div className="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-12 gap-20 items-center">
+            <div className="md:col-span-7">
+              <h2 className="text-6xl font-semibold tracking-tighter mb-12">Merhaba, ben BOF MEDIA</h2>
+              
+              <div className="space-y-8 text-[21px] leading-tight text-white/90">
+                <p>Modern dijital ajansım. İşletmelerin dijital dünyada rekabetçi ve güvenilir bir varlık olmasını sağlıyorum.</p>
+                <p>Her projede estetik ile performansı birleştirerek, markalara uzun vadeli değer yaratıyorum.</p>
               </div>
-            </motion.div>
+            </div>
+            
+            <div className="md:col-span-5">
+              <div className="aspect-square w-full max-w-md mx-auto rounded-[4rem] border border-white/10 bg-zinc-900 overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-bofPrimary/10 via-transparent to-transparent" />
+                <div className="absolute inset-0 flex items-center justify-center text-[180px] opacity-10 font-mono">BOF</div>
+                <div className="absolute bottom-12 left-12 right-12 bg-black/70 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+                  <div className="uppercase text-xs tracking-widest text-bofMuted">Kurucu</div>
+                  <div className="text-3xl font-semibold mt-2">Bora Özer</div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       );
     };
 
-    // ==========================================
-    // 7. CTA (ÇAĞRI) BİLEŞENİ
-    // ==========================================
+    // CTA
     const CTA = () => {
       return (
-        <section className="py-40 relative border-t border-white/[0.04] overflow-hidden flex items-center justify-center text-center px-6">
-          <div className="absolute inset-0 bg-bofPrimary/5 blur-[150px] -z-10" />
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-12">
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tighter leading-[1.1] text-white">
-              İşletmeniz İçin Sıradan Bir Web Sitesi Mi,<br/>Yoksa <br className="hidden md:block"/>
-              <span className="text-bofPrimary">İnsanların Güvendiği Bir Marka Mı</span> İstiyorsunuz?
+        <section id="iletisim" className="relative py-40 border-t border-white/5 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#3B5FFF10_0%,transparent_70%)]" />
+          
+          <div className="max-w-3xl mx-auto text-center px-6 relative z-10">
+            <h2 className="text-6xl md:text-7xl font-semibold tracking-tighter leading-none mb-10">
+              Sıradan bir site mi,<br />yoksa <span className="text-bofPrimary">güvenilir bir marka</span> mı istiyorsunuz?
             </h2>
-            <a href="#iletisim" className="inline-block bg-bofPrimary hover:bg-bofPrimary/90 text-white font-medium px-10 py-5 rounded-2xl text-lg transition-all shadow-2xl shadow-bofPrimary/20">
-              Hemen İletişime Geç
-            </a>
-          </motion.div>
+            
+            <motion.a 
+              whileHover={{ scale: 1.03 }}
+              href="https://wa.me/905555555555"
+              target="_blank"
+              className="inline-block mt-8 px-14 py-7 bg-white text-black hover:bg-white/90 font-semibold text-2xl rounded-3xl transition-all"
+            >
+              Hemen Başlayalım →
+            </motion.a>
+            
+            <p className="mt-12 text-bofMuted">Ortalama ilk görüşme 15 dakika sürer.</p>
+          </div>
         </section>
       );
     };
 
-    // ==========================================
-    // 8. FOOTER BİLEŞENİ
-    // ==========================================
+    // FOOTER
     const Footer = () => {
       return (
-        <footer id="iletisim" className="border-t border-white/[0.04] py-16 px-6 bg-white/[0.01]">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
-            <div className="md:col-span-2">
-              <div className="text-2xl font-bold tracking-tighter mb-2">BOF MEDIA</div>
-              <p className="text-sm text-bofMuted max-w-xs">İnternette Büyüten Dijital Deneyimler.</p>
+        <footer className="border-t border-white/5 bg-black py-20">
+          <div className="max-w-screen-2xl mx-auto px-8 grid grid-cols-2 md:grid-cols-12 gap-y-16">
+            <div className="md:col-span-5">
+              <div className="text-4xl font-semibold tracking-tighter mb-4">BOF MEDIA</div>
+              <p className="text-bofMuted max-w-xs">Dijital deneyimler tasarlıyoruz.</p>
             </div>
-            <div className="flex flex-col gap-3">
-              <span className="font-semibold text-white/90 mb-2">Hizmetler</span>
-              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">Web Sitesi</a>
-              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">AI Otomasyon</a>
-              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">Marka Tasarımı</a>
+            
+            <div className="md:col-span-3">
+              <div className="font-medium mb-6">Hizmetler</div>
+              <div className="space-y-3 text-sm">
+                <a href="#" className="block text-bofMuted hover:text-white">Web &amp; Mobil Uygulama</a>
+                <a href="#" className="block text-bofMuted hover:text-white">AI Otomasyon</a>
+                <a href="#" className="block text-bofMuted hover:text-white">Marka Kimliği</a>
+              </div>
             </div>
-            <div className="flex flex-col gap-3">
-              <span className="font-semibold text-white/90 mb-2">İletişim</span>
-              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">Instagram</a>
-              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">LinkedIn</a>
-              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">WhatsApp</a>
-              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">Email</a>
+            
+            <div className="md:col-span-4">
+              <div className="font-medium mb-6">İletişim</div>
+              <div className="space-y-3 text-sm">
+                <a href="https://instagram.com" target="_blank" className="block text-bofMuted hover:text-white">Instagram</a>
+                <a href="#" className="block text-bofMuted hover:text-white">LinkedIn</a>
+                <a href="https://wa.me/905555555555" target="_blank" className="block text-bofMuted hover:text-white">WhatsApp</a>
+                <a href="mailto:hello@bofmedia.co" className="block text-bofMuted hover:text-white">hello@bofmedia.co</a>
+              </div>
             </div>
           </div>
-          <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/[0.04] text-center md:text-left text-xs text-bofMuted">
-            &copy; 2024 BOF MEDIA. Tüm hakları saklıdır.
+          
+          <div className="max-w-screen-2xl mx-auto px-8 mt-24 pt-8 border-t border-white/5 text-xs text-bofMuted flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>© 2026 BOF MEDIA. Tüm hakları saklıdır.</div>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-white">Gizlilik</a>
+              <a href="#" className="hover:text-white">Kullanım Şartları</a>
+            </div>
           </div>
         </footer>
       );
     };
 
-    // ==========================================
-    // ANA UYGULAMA (APP) BİRLEŞTİRİCİSİ
-    // ==========================================
+    // MAIN APP
     const App = () => {
       return (
-        <div className="selection:bg-bofPrimary/30 selection:text-white">
+        <div className="bg-bofBg text-white selection:bg-bofPrimary/30 selection:text-white">
           <Navbar />
           <Hero />
           <Trust />
@@ -408,9 +538,9 @@
       );
     };
 
-    // React'i DOM'a bas
     const root = createRoot(document.getElementById('root'));
-    root.render(<App />);
+    root.render(React.createElement(App));
   </script>
 </body>
 </html>
+```
