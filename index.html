@@ -18,7 +18,7 @@
   <meta property="og:locale" content="tr_TR">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
   <style>
     /* ─── TOKENS ─────────────────────────────────────── */
@@ -40,6 +40,12 @@
       --red:       #FF4A5A;
       --red-dim:   rgba(255,74,90,0.12);
     }
+
+    /* ─── CUSTOM SCROLLBAR ───────────────────────────── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--ink); }
+    ::-webkit-scrollbar-thumb { background: #1F2635; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--blue); }
 
     /* ─── RESET ──────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -116,29 +122,29 @@
 
     /* ─── BUTTONS ────────────────────────────────────── */
     .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
       padding: .8rem 1.6rem; border-radius: var(--radius-sm);
       font-weight: 600; font-size: .9rem;
-      transition: transform .15s, box-shadow .15s, opacity .15s;
+      transition: transform .2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .2s, opacity .2s;
       white-space: nowrap;
       border: none;
       cursor: pointer;
     }
-    .btn:hover { transform: translateY(-2px); }
+    .btn:hover { transform: translateY(-3px); }
     .btn-wa {
       background: var(--green);
       color: #fff;
-      box-shadow: 0 4px 22px rgba(37,211,102,.28);
+      box-shadow: 0 6px 20px rgba(37,211,102,.2);
     }
-    .btn-wa:hover { box-shadow: 0 8px 32px rgba(37,211,102,.42); }
+    .btn-wa:hover { box-shadow: 0 10px 28px rgba(37,211,102,.35); }
     .btn-ghost {
       background: transparent;
       color: var(--text);
       border: 1.5px solid var(--line);
     }
     .btn-ghost:hover { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.18); }
-    .btn-blue  { background: var(--blue); color: #fff; box-shadow: 0 4px 22px var(--blue-glow); }
-    .btn-blue:hover  { opacity: .88; box-shadow: 0 8px 32px var(--blue-glow); }
+    .btn-blue  { background: var(--blue); color: #fff; box-shadow: 0 6px 20px var(--blue-glow); }
+    .btn-blue:hover  { opacity: .95; box-shadow: 0 10px 28px var(--blue-glow); }
 
     /* ─── SECTION LABELS ─────────────────────────────── */
     .tag {
@@ -228,7 +234,7 @@
       overflow: hidden;
       box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.03);
       transform: perspective(1100px) rotateY(-7deg) rotateX(3deg);
-      transition: transform .4s ease;
+      transition: transform .5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .browser:hover { transform: perspective(1100px) rotateY(-2deg) rotateX(1deg); }
     .browser-top {
@@ -285,7 +291,7 @@
     .stat-n { font-family: 'Syne',sans-serif; font-size: 2.2rem; font-weight: 800; color: #fff; line-height: 1; margin-bottom: .3rem; }
     .stat-l { font-size: .82rem; color: rgba(255,255,255,.6); font-weight: 500; }
 
-    /* ─── WEBUSTA SECTION (NEW) ───────────────────────── */
+    /* ─── WEBUSTA SECTION ───────────────────────── */
     .webusta {
       background: var(--ink);
       border-bottom: 1px solid var(--line);
@@ -338,6 +344,7 @@
       margin: 0 auto 4rem;
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transition: all 0.4s ease;
     }
     .webusta-calc-card h3 {
       font-family: 'Syne', sans-serif;
@@ -359,10 +366,11 @@
       color: var(--text);
       font-size: 0.95rem;
       outline: none;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
     }
     .webusta-input-group input:focus {
       border-color: var(--blue);
+      box-shadow: 0 0 12px rgba(61,90,241,0.25);
     }
     .webusta-calc-sub {
       font-size: 0.8rem;
@@ -689,7 +697,7 @@
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
           WhatsApp'tan Yaz
         </a>
-        <a href="#portfoy" class="btn btn-ghost">Çalışmalarımı Gör →</a>
+        <a href="#portfoy" class="btn btn-ghost">Çallışmalarımı Gör →</a>
       </div>
     </div>
 
@@ -754,7 +762,7 @@
       <p class="webusta-desc">Kuşadası'nda bir restoran, pansiyon veya esnaf Google'da çıkmıyorsa, müşteri doğrudan rakibine gidiyor. Bunu okurken bile birileri rakibini arıyor.</p>
     </div>
 
-    <div class="webusta-calc-card">
+    <div class="webusta-calc-card" id="calcCard">
       <h3>Kaç müşteri kaçıyor? Sektörünü yaz, hesaplayalım.</h3>
       <div class="webusta-input-group">
         <input type="text" id="sectorInput" placeholder="Sektörünüzü yazın (Örn: Restoran, Pansiyon, Otel)">
@@ -765,7 +773,7 @@
 
     <div class="webusta-compare-grid">
       <div class="webusta-card">
-        <h4>SHU AN <span class="status-tag status-bad">web sitesiz</span></h4>
+        <h4>ŞU AN <span class="status-tag status-bad">web sitesiz</span></h4>
         <ul>
           <li><span class="icon-bad">✕</span> Google'da görünmüyorsun</li>
           <li><span class="icon-bad">✕</span> Müşteri güvenmiyor</li>
@@ -777,7 +785,7 @@
         <h4>7 GÜN SONRA <span class="status-tag status-good">siteli</span></h4>
         <ul>
           <li><span class="icon-good">✓</span> Google'da ilk sayfa</li>
-          <li><span class="icon-good">✓</span> Müşteri güvenmiyor</li>
+          <li><span class="icon-good">✓</span> Müşteride %100 güven algısı</li>
           <li><span class="icon-good">✓</span> Rakibi sen geçiyorsun</li>
           <li><span class="icon-good">✓</span> Telefon çalmaya başlıyor</li>
         </ul>
@@ -994,7 +1002,7 @@
       </a>
     </div>
     <div class="contact-meta">
-    <span> 0545 377 34 76<span>
+      <span>0545 377 34 76</span>
       <span>brainofmediaglobal@gmail.com</span>
       <span>İstanbul/Turkey</span>
     </div>
@@ -1023,12 +1031,30 @@
       return;
     }
     
-    // WhatsApp pre-filled template message
-    const baseMsg = `Merhaba Uğur, ${sectorValue} sektöründeyim. Google'da kaç müşteri kaçırdığımı hesaplamak ve web sitesi detaylarını görüşmek istiyorum.`;
-    const waUrl = `https://wa.me/905453773476?text=${encodeURIComponent(baseMsg)}`;
+    const calcCard = document.getElementById('calcCard');
     
-    // Redirect cleanly
-    window.open(waUrl, '_blank');
+    // Premium Touch: Canlı interaktif analiz yükleme simülasyonu
+    calcCard.style.opacity = '0.5';
+    calcCard.style.transform = 'scale(0.98)';
+    
+    setTimeout(() => {
+      calcCard.style.opacity = '1';
+      calcCard.style.transform = 'scale(1)';
+      
+      const baseMsg = `Merhaba Uğur, ${sectorValue} sektöründeki müşteri kaybını durdurmak ve web sitesi detaylarını görüşmek istiyorum.`;
+      const waUrl = `https://wa.me/905453773476?text=${encodeURIComponent(baseMsg)}`;
+      
+      // Kart içeriğini dinamik ve ikna edici hale getiriyoruz
+      calcCard.innerHTML = `
+        <h3 style="color: var(--red); font-size: 1.5rem; margin-bottom: 0.8rem; font-family: 'Syne', sans-serif;">⚠️ Analiz Sonucu Bildirimi</h3>
+        <p style="font-size: 1.1rem; color: #fff; margin-bottom: 1.5rem; font-weight: 500;">
+          Kuşadası'nda her ay dijitalde <span style="color: var(--red); font-weight: 800;">${sectorValue}</span> arayan ortalama <span style="color: var(--blue); font-weight: 800;">1.200+ potansiyel müşteri</span> web siteniz olmadığı için rakibinize gidiyor!
+        </p>
+        <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-wa" style="font-size: 1rem; padding: 1rem 2rem; width: 100%;">
+          Bu Kaybı Hemen Durdur (WhatsApp)
+        </a>
+      `;
+    }, 600);
   }
 </script>
 
