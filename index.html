@@ -1,1062 +1,416 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%233D5AF1'/><text x='50' y='72' font-family='Arial Black,sans-serif' font-size='62' font-weight='900' fill='white' text-anchor='middle'>B</text></svg>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Sitesi Yaptırma | Ucuz & Profesyonel Web Sitesi | BOFMEDIA</title>
-  <meta name="description" content="İşletmeniz için profesyonel web sitesi yaptırma. Landing page, kurumsal site, otel & turizm siteleri. 2.500₺'den başlayan fiyatlar. 48 saat içinde taslak. WhatsApp: 0545 377 34 76">
-  <meta name="keywords" content="web sitesi yaptırma, ucuz web sitesi, profesyonel web sitesi, landing page yaptırma, kurumsal web sitesi, otel web sitesi, web sitesi fiyatları, web tasarım, Kuşadası web sitesi, Türkiye web sitesi yaptırma">
-  <meta name="author" content="Uğur - BOFMEDIA">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://brainofmediaglobal-hub.github.io">
+  <title>BOF MEDIA | Premium Dijital Ajans</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { 
+            bofBg: '#050816', 
+            bofPrimary: '#3B5FFF', 
+            bofMuted: '#8A90A5' 
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          animation: { 'subtle-float': 'float 6s ease-in-out infinite' },
+          keyframes: { 
+            float: { 
+              '0%, 100%': { transform: 'translateY(0px)' }, 
+              '50%': { transform: 'translateY(-8px)' } 
+            } 
+          }
+        }
+      }
+    }
+  </script>
 
-  <meta property="og:title" content="Web Sitesi Yaptırma | BOFMEDIA">
-  <meta property="og:description" content="İşletmeniz için profesyonel web sitesi. 2.500₺'den başlayan fiyatlar. 48 saatte taslak teslim.">
-  <meta property="og:url" content="https://brainofmediaglobal-hub.github.io">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="tr_TR">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <!-- ES Modules Import Map (Modern React ve Framer Motion için) -->
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "framer-motion": "https://esm.sh/framer-motion@10.16.4"
+      }
+    }
+  </script>
 
+  <!-- Babel (Tarayıcıda React Derleyicisi) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Tipografi: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    /* ─── TOKENS ─────────────────────────────────────── */
-    :root {
-      --ink:       #07090F;
-      --surface:   #0D1017;
-      --card:      #131925;
-      --card-hi:   #18203A;
-      --blue:      #3D5AF1;
-      --blue-dim:  rgba(61,90,241,.12);
-      --blue-glow: rgba(61,90,241,.35);
-      --green:     #25D366;
-      --text:      #EEF0FF;
-      --muted:     rgba(238,240,255,.45);
-      --line:      rgba(238,240,255,.07);
-      --radius-sm: 10px;
-      --radius:    16px;
-      --radius-lg: 24px;
-      --red:       #FF4A5A;
-      --red-dim:   rgba(255,74,90,0.12);
-    }
-
-    /* ─── CUSTOM SCROLLBAR ───────────────────────────── */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--ink); }
-    ::-webkit-scrollbar-thumb { background: #1F2635; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--blue); }
-
-    /* ─── RESET ──────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 16px; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--ink);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-    img { display: block; max-width: 100%; }
-    a { text-decoration: none; color: inherit; }
-    ul { list-style: none; }
-
-    /* ─── TYPOGRAPHY ─────────────────────────────────── */
-    .display {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.08;
-    }
-    .heading {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-    }
-
-    /* ─── LAYOUT ─────────────────────────────────────── */
-    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
-    section { padding: 96px 0; }
-
-    /* ─── NAV ────────────────────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-      height: 66px;
-      display: flex; align-items: center;
-      background: rgba(7,9,15,.82);
-      backdrop-filter: blur(18px) saturate(1.4);
-      -webkit-backdrop-filter: blur(18px) saturate(1.4);
-      border-bottom: 1px solid var(--line);
-    }
-    nav .wrap { width: 100%; display: flex; align-items: center; justify-content: space-between; }
-
-    .logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.15rem;
-      letter-spacing: .06em;
-      color: var(--text);
-    }
-    .logo em { color: var(--blue); font-style: normal; }
-
-    .nav-list { display: flex; align-items: center; gap: 2rem; }
-    .nav-list a {
-      font-size: .82rem;
-      font-weight: 500;
-      color: var(--muted);
-      transition: color .18s;
-    }
-    .nav-list a:hover { color: var(--text); }
-
-    .nav-cta {
-      background: var(--blue) !important;
-      color: #fff !important;
-      padding: .45rem 1.1rem !important;
-      border-radius: var(--radius-sm) !important;
-      font-weight: 600 !important;
-      transition: opacity .18s, transform .15s !important;
-    }
-    .nav-cta:hover { opacity: .88; transform: translateY(-1px); }
-
-    /* ─── BUTTONS ────────────────────────────────────── */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-      padding: .8rem 1.6rem; border-radius: var(--radius-sm);
-      font-weight: 600; font-size: .9rem;
-      transition: transform .2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .2s, opacity .2s;
-      white-space: nowrap;
-      border: none;
-      cursor: pointer;
-    }
-    .btn:hover { transform: translateY(-3px); }
-    .btn-wa {
-      background: var(--green);
-      color: #fff;
-      box-shadow: 0 6px 20px rgba(37,211,102,.2);
-    }
-    .btn-wa:hover { box-shadow: 0 10px 28px rgba(37,211,102,.35); }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1.5px solid var(--line);
-    }
-    .btn-ghost:hover { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.18); }
-    .btn-blue  { background: var(--blue); color: #fff; box-shadow: 0 6px 20px var(--blue-glow); }
-    .btn-blue:hover  { opacity: .95; box-shadow: 0 10px 28px var(--blue-glow); }
-
-    /* ─── SECTION LABELS ─────────────────────────────── */
-    .tag {
-      display: inline-block;
-      font-size: .68rem; font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      padding: .3rem .9rem;
-      border-radius: 100px;
-      background: var(--blue-dim);
-      color: #8BA4FF;
-      border: 1px solid rgba(61,90,241,.22);
-      margin-bottom: 1.2rem;
-    }
-
-    /* ─── HERO ───────────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      padding-top: 66px;
-      background: var(--surface);
-      position: relative; overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(61,90,241,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(61,90,241,.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-    .hero-blob1 {
-      position: absolute; top: -180px; right: -120px;
-      width: 680px; height: 680px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(61,90,241,.18) 0%, transparent 68%);
-      pointer-events: none;
-    }
-    .hero-blob2 {
-      position: absolute; bottom: -200px; left: -160px;
-      width: 560px; height: 560px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(37,211,102,.07) 0%, transparent 68%);
-      pointer-events: none;
-    }
-
-    .hero .wrap {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 5rem; align-items: center;
-      position: relative; z-index: 1;
-      padding-top: 3rem; padding-bottom: 3rem;
-    }
-
-    .hero-live {
-      display: inline-flex; align-items: center; gap: .55rem;
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--line);
-      border-radius: 100px;
-      padding: .35rem 1rem .35rem .55rem;
-      font-size: .72rem; color: var(--muted);
-      margin-bottom: 1.6rem;
-    }
-    .live-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: #4ADE80;
-      box-shadow: 0 0 0 3px rgba(74,222,128,.18);
-      animation: blink 2.4s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
-
-    .hero h1 {
-      font-size: clamp(2.4rem, 4.2vw, 3.8rem);
-      margin-bottom: 1.3rem;
-    }
-    .hero h1 .accent { color: var(--blue); }
-    .hero p {
-      font-size: 1rem; color: var(--muted);
-      max-width: 420px; margin-bottom: 2.2rem;
-      line-height: 1.75;
-    }
-    .hero-btns { display: flex; gap: .9rem; flex-wrap: wrap; }
-
-    /* ── Browser Visual ── */
-    .browser {
-      background: var(--card);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--line);
-      overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.03);
-      transform: perspective(1100px) rotateY(-7deg) rotateX(3deg);
-      transition: transform .5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .browser:hover { transform: perspective(1100px) rotateY(-2deg) rotateX(1deg); }
-    .browser-top {
-      display: flex; align-items: center; gap: .7rem;
-      padding: .8rem 1.1rem;
-      background: rgba(255,255,255,.03);
-      border-bottom: 1px solid var(--line);
-    }
-    .dots { display: flex; gap: 5px; }
-    .dot { width: 9px; height: 9px; border-radius: 50%; }
-    .dot-r { background: #FF5F57; } .dot-y { background: #FFBD2E; } .dot-g { background: #28CA41; }
-    .urlbar {
-      flex: 1; background: rgba(255,255,255,.05);
-      border-radius: 5px; padding: .3rem .8rem;
-      font-size: .6rem; color: var(--muted);
-      margin-left: .3rem;
-    }
-    .browser-body { padding: 1.3rem; }
-
-    .mock {
-      background: linear-gradient(140deg, #0D1A32 0%, #071226 100%);
-      border-radius: var(--radius-sm);
-      padding: 1.2rem;
-      margin-bottom: .7rem;
-    }
-    .mock-label {
-      font-size: .44rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-      color: #F5A623; background: rgba(245,166,35,.14);
-      display: inline-block; padding: .18rem .5rem; border-radius: 3px; margin-bottom: .55rem;
-    }
-    .mock-h { font-family: 'Syne',sans-serif; font-size: .85rem; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: .4rem; }
-    .mock-p { font-size: .45rem; color: rgba(255,255,255,.42); line-height: 1.6; margin-bottom: .75rem; max-width: 180px; }
-    .mock-cta { display: inline-block; background: #F5A623; color: #0D1A32; font-size: .48rem; font-weight: 700; padding: .35rem .75rem; border-radius: 4px; }
-    .mock-cards { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
-    .mock-card {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
-      border-radius: 6px; padding: .55rem;
-    }
-    .mc-icon { font-size: .8rem; margin-bottom: .2rem; }
-    .mc-t { font-size: .44rem; font-weight: 700; color: rgba(255,255,255,.75); margin-bottom: .15rem; }
-    .mc-s { font-size: .4rem; color: rgba(255,255,255,.3); line-height: 1.4; }
-
-    /* ─── STATS BAR ──────────────────────────────────── */
-    .stats-bar {
-      background: var(--blue);
-      padding: 2.6rem 0;
-    }
-    .stats-bar .wrap {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 2rem;
-      text-align: center;
-    }
-    .stat-n { font-family: 'Syne',sans-serif; font-size: 2.2rem; font-weight: 800; color: #fff; line-height: 1; margin-bottom: .3rem; }
-    .stat-l { font-size: .82rem; color: rgba(255,255,255,.6); font-weight: 500; }
-
-    /* ─── WEBUSTA SECTION ───────────────────────── */
-    .webusta {
-      background: var(--ink);
-      border-bottom: 1px solid var(--line);
-    }
-    .webusta-badge {
-      display: inline-block;
-      background: var(--red-dim);
-      color: var(--red);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      padding: 0.4rem 1rem;
-      border-radius: 100px;
-      border: 1px solid rgba(255,74,90,0.2);
-      margin-bottom: 1.5rem;
-    }
-    .webusta-hero {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto 3.5rem;
-    }
-    .webusta-hero h2 {
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      margin-bottom: 1rem;
-    }
-    .webusta-hero h2 span {
-      color: var(--red);
-    }
-    .webusta-strike {
-      font-size: 1.25rem;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-    }
-    .webusta-strike del {
-      color: var(--red);
-      text-decoration-color: var(--red);
-      font-weight: 600;
-    }
-    .webusta-desc {
-      font-size: 1.05rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    .webusta-calc-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      padding: 2.5rem;
-      border-radius: var(--radius-lg);
-      max-width: 650px;
-      margin: 0 auto 4rem;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-      transition: all 0.4s ease;
-    }
-    .webusta-calc-card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-    .webusta-input-group {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    .webusta-input-group input {
-      flex: 1;
-      background: var(--ink);
-      border: 1px solid var(--line);
-      padding: 0.9rem 1.2rem;
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      font-size: 0.95rem;
-      outline: none;
-      transition: all 0.2s;
-    }
-    .webusta-input-group input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 12px rgba(61,90,241,0.25);
-    }
-    .webusta-calc-sub {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .webusta-compare-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .webusta-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-    }
-    .webusta-card h4 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .status-tag {
-      font-size: 0.7rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 100px;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-    }
-    .status-bad { background: rgba(255,74,90,0.1); color: var(--red); }
-    .status-good { background: rgba(37,211,102,0.1); color: var(--green); }
-    
-    .webusta-card ul li {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-      color: var(--text);
-    }
-    .webusta-card ul li:last-child { margin-bottom: 0; }
-    .webusta-card .icon-bad { color: var(--red); font-weight: bold; }
-    .webusta-card .icon-good { color: var(--green); font-weight: bold; }
-
-    /* ─── SERVICES ───────────────────────────────────── */
-    .services { background: var(--surface); }
-    .section-head { text-align: center; margin-bottom: 3.5rem; }
-    .section-head h2 { font-size: clamp(1.9rem,3vw,2.8rem); color: var(--text); margin-bottom: .8rem; }
-    .section-head p  { font-size: .95rem; color: var(--muted); max-width: 420px; margin: 0 auto; }
-
-    .srv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
-    .srv-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 2rem;
-      position: relative; overflow: hidden;
-      transition: transform .22s, border-color .22s, box-shadow .22s;
-    }
-    .srv-card::after {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--blue); opacity: 0; transition: opacity .22s;
-    }
-    .srv-card:hover { transform: translateY(-5px); border-color: rgba(61,90,241,.3); box-shadow: 0 18px 44px rgba(0,0,0,.3); }
-    .srv-card:hover::after { opacity: 1; }
-
-    .srv-icon {
-      width: 48px; height: 48px; border-radius: var(--radius-sm);
-      background: var(--blue-dim); display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; margin-bottom: 1.2rem;
-    }
-    .srv-card h3 { font-family: 'Syne',sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: .65rem; }
-    .srv-card > p { font-size: .86rem; color: var(--muted); line-height: 1.68; margin-bottom: 1.1rem; }
-    .srv-list li { display: flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--muted); margin-bottom: .4rem; }
-    .srv-list li::before { content: '✓'; color: var(--blue); font-weight: 700; font-size: .75rem; flex-shrink: 0; }
-
-    /* ─── PROCESS ────────────────────────────────────── */
-    .process { background: var(--ink); }
-    .steps-row {
-      display: grid; grid-template-columns: repeat(4,1fr);
-      gap: 1.5rem; margin-top: 3.5rem; position: relative;
-    }
-    .steps-row::before {
-      content: ''; position: absolute; top: 21px;
-      left: calc(12.5% + 1rem); right: calc(12.5% + 1rem);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--blue), transparent);
-      opacity: .25;
-    }
-    .step { text-align: center; position: relative; z-index: 1; }
-    .step-num {
-      width: 42px; height: 42px; background: var(--card-hi);
-      border: 1px solid rgba(61,90,241,.3);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-family: 'Syne',sans-serif; font-size: .78rem; font-weight: 800; color: var(--blue);
-      margin: 0 auto 1.1rem;
-    }
-    .step h3 { font-family: 'Syne',sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: .4rem; color: var(--text); }
-    .step p  { font-size: .8rem; color: var(--muted); line-height: 1.65; }
-
-    /* ─── PORTFOLIO ──────────────────────────────────── */
-    .portfolio { background: var(--surface); }
-    .pf-wrap { max-width: 920px; margin: 3.5rem auto 0; }
-
-    .pf-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      display: grid; grid-template-columns: 1.1fr 1fr;
-      margin-bottom: 3rem;
-    }
-
-    .pf-preview {
-      background: linear-gradient(145deg, #0E1C36 0%, #071020 100%);
-      padding: 2rem 1.8rem;
-      display: flex; flex-direction: column; justify-content: center;
-      min-height: 360px; gap: .9rem;
-    }
-    .pf-nav-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: .6rem; }
-    .pf-brand { font-size: .62rem; font-weight: 800; color: #fff; letter-spacing: .05em; }
-    .pf-navl { display: flex; gap: 10px; }
-    .pf-navl span { font-size: .4rem; color: rgba(255,255,255,.35); }
-    .pf-sector {
-      display: inline-block;
-      background: rgba(245,166,35,.16); color: #F5A623;
-      font-size: .44rem; font-weight: 700; letter-spacing: .08em;
-      padding: .2rem .55rem; border-radius: 3px; margin-bottom: .55rem;
-    }
-    .pf-h { font-family: 'Syne',sans-serif; font-size: 1.05rem; font-weight: 800; color: #fff; line-height: 1.22; margin-bottom: .45rem; }
-    .pf-p { font-size: .48rem; color: rgba(255,255,255,.38); line-height: 1.6; max-width: 175px; margin-bottom: .9rem; }
-    .pf-cta { display: inline-block; background: #F5A623; color: #0E1C36; font-size: .48rem; font-weight: 700; padding: .4rem .85rem; border-radius: 4px; }
-    .pf-rooms { display: grid; grid-template-columns: 1fr 1fr; gap: .45rem; }
-    .pf-room {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
-      border-radius: 5px; padding: .5rem;
-    }
-    .pr-icon { font-size: .75rem; margin-bottom: .18rem; }
-    .pr-t { font-size: .42rem; font-weight: 700; color: rgba(255,255,255,.7); margin-bottom: .1rem; }
-    .pr-s { font-size: .38rem; color: rgba(255,255,255,.28); line-height: 1.4; }
-
-    .pf-info { padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
-    .pf-badge {
-      display: inline-block;
-      background: var(--blue-dim); color: #8BA4FF;
-      font-size: .65rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
-      padding: .28rem .75rem; border-radius: 100px; border: 1px solid rgba(61,90,241,.2);
-      margin-bottom: .9rem;
-    }
-    .pf-info h3 { font-family: 'Syne',sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: .65rem; line-height: 1.2; }
-    .pf-info p  { font-size: .86rem; color: var(--muted); line-height: 1.72; margin-bottom: 1.4rem; }
-    .pf-chips { display: flex; flex-wrap: wrap; gap: .45rem; }
-    .chip {
-      background: var(--card-hi); border: 1px solid var(--line);
-      color: var(--muted); font-size: .68rem; font-weight: 500;
-      padding: .28rem .75rem; border-radius: 100px;
-    }
-
-    .sector-grid {
-      display: grid; grid-template-columns: repeat(4,1fr);
-      gap: .75rem; margin-top: 1.75rem;
-    }
-    .sector-item {
-      background: var(--card); border: 1px solid var(--line);
-      border-radius: var(--radius-sm); padding: 1.1rem;
-      font-size: .8rem; color: var(--muted);
-      display: flex; align-items: center; gap: .6rem;
-      transition: border-color .2s, background .2s;
-    }
-    .sector-item:hover { border-color: rgba(61,90,241,.3); background: var(--card-hi); }
-    .sector-item span.em { font-size: 1.1rem; flex-shrink: 0; }
-
-    /* ─── PRICING ────────────────────────────────────── */
-    .pricing { background: var(--ink); }
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 1.25rem; align-items: start; margin-top: 3.5rem;
-      max-width: 1000px; margin-left: auto; margin-right: auto;
-    }
-    .pc {
-      background: var(--card); border: 1px solid var(--line);
-      border-radius: var(--radius-lg); padding: 2rem;
-      transition: transform .2s;
-    }
-    .pc:hover { transform: translateY(-4px); }
-    .pc.pop {
-      background: var(--card-hi); border-color: rgba(61,90,241,.45);
-      box-shadow: 0 20px 60px rgba(61,90,241,.18);
-      position: relative;
-    }
-    .pop-label {
-      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-      background: var(--blue); color: #fff;
-      font-size: .64rem; font-weight: 700; padding: .28rem 1rem; border-radius: 100px;
-      white-space: nowrap;
-    }
-    .pc-tier { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .7rem; }
-    .pc-price { font-family: 'Syne',sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: .18rem; }
-    .pc-note  { font-size: .78rem; color: var(--muted); margin-bottom: 1.5rem; }
-    .pc-sep   { border: none; border-top: 1px solid var(--line); margin-bottom: 1.5rem; }
-    .pc-list li { display: flex; align-items: flex-start; gap: .45rem; font-size: .84rem; color: var(--muted); margin-bottom: .7rem; }
-    .pc-list li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
-    .pc.pop .pc-list li::before { color: #4ADE80; }
-    .pc-btn {
-      display: block; text-align: center;
-      padding: .85rem; border-radius: var(--radius-sm);
-      font-weight: 700; font-size: .88rem;
-      margin-top: 1.75rem; transition: transform .15s, opacity .15s;
-    }
-    .pc-btn:hover { transform: translateY(-2px); }
-    .btn-solid { background: var(--blue); color: #fff; box-shadow: 0 4px 20px var(--blue-glow); }
-    .btn-solid:hover { opacity: .88; }
-    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
-    .btn-outline:hover { background: rgba(255,255,255,.04); }
-
-    /* ─── CONTACT ────────────────────────────────────── */
-    .contact {
-      background: var(--surface);
-      position: relative; overflow: hidden;
-    }
-    .contact::before {
-      content: '';
-      position: absolute; top: -250px; left: 50%; transform: translateX(-50%);
-      width: 700px; height: 700px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(61,90,241,.13) 0%, transparent 68%);
-      pointer-events: none;
-    }
-    .contact .wrap { text-align: center; position: relative; z-index: 1; max-width: 600px; }
-    .contact h2  { font-size: clamp(2rem,3.5vw,3rem); margin-bottom: .9rem; }
-    .contact p   { font-size: .97rem; color: var(--muted); line-height: 1.75; margin-bottom: 2.5rem; }
-    .contact-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .contact-meta {
-      display: flex; gap: 2rem; justify-content: center;
-      margin-top: 1.75rem; font-size: .78rem; color: rgba(238,240,255,.3);
-      flex-wrap: wrap;
-    }
-
-    /* ─── FOOTER ─────────────────────────────────────── */
-    footer {
-      background: var(--ink); border-top: 1px solid var(--line);
-      padding: 2rem 0; text-align: center;
-    }
-    footer p { font-size: .8rem; color: rgba(238,240,255,.3); margin-bottom: 0.5rem; }
-    footer .location { color: var(--muted); font-size: 0.75rem; }
-
-    /* ─── FLOAT WA ───────────────────────────────────── */
-    .float-wa {
-      position: fixed; bottom: 26px; right: 26px; z-index: 800;
-      width: 52px; height: 52px; border-radius: 50%;
-      background: var(--green);
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 28px rgba(37,211,102,.38);
-      transition: transform .2s, box-shadow .2s;
-      animation: popIn .6s 1.2s cubic-bezier(.34,1.56,.64,1) both;
-    }
-    .float-wa:hover { transform: scale(1.1); box-shadow: 0 12px 36px rgba(37,211,102,.55); }
-    @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-    .float-wa svg { width: 26px; height: 26px; fill: #fff; }
-
-    /* ─── RESPONSIVE ─────────────────────────────────── */
-    @media (max-width: 960px) {
-      .hero .wrap         { grid-template-columns: 1fr; }
-      .browser            { display: none; }
-      .webusta-compare-grid { grid-template-columns: 1fr; }
-      .srv-grid           { grid-template-columns: 1fr; }
-      .steps-row          { grid-template-columns: repeat(2,1fr); }
-      .steps-row::before  { display: none; }
-      .pf-card            { grid-template-columns: 1fr; }
-      .pf-preview         { min-height: 280px; }
-      .sector-grid        { grid-template-columns: repeat(2,1fr); }
-      .pricing-grid       { grid-template-columns: 1fr; }
-      .stats-bar .wrap    { grid-template-columns: 1fr; gap: 1.2rem; }
-      nav .nav-list       { display: none; }
-      section             { padding: 68px 0; }
-    }
-
-    @media (max-width: 540px) {
-      .hero h1 { font-size: 2.1rem; }
-      .hero-btns { flex-direction: column; align-items: flex-start; }
-      .webusta-input-group { flex-direction: column; }
-      .webusta-input-group button { padding: 0.9rem; }
-      .contact-btns { flex-direction: column; align-items: center; }
-      .sector-grid { grid-template-columns: 1fr; }
-    }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background-color: #050816; 
+      color: #ffffff; 
+      overflow-x: hidden; 
+    }
+    /* Premium Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050816; }
+    ::-webkit-scrollbar-thumb { background: #1a1f3c; border-radius: 10px; }
   </style>
 </head>
 <body>
+  <div id="root"></div>
 
-<nav>
-  <div class="wrap">
-    <a href="#" class="logo">BOF<em>MEDIA</em><em>.</em></a>
-    <ul class="nav-list">
-      <li><a href="#hizmetler">Hizmetler</a></li>
-      <li><a href="#surecim">Süreç</a></li>
-      <li><a href="#portfoy">Portföy</a></li>
-      <li><a href="#fiyatlar">Fiyatlar</a></li>
-      <li><a href="#iletisim" class="nav-cta">İletişime Geç</a></li>
-    </ul>
-  </div>
-</nav>
+  <!-- UYGULAMA KODLARI (React & Framer Motion) -->
+  <script type="text/babel" data-type="module">
+    import React, { useState, useEffect } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { motion } from 'framer-motion';
 
-<section class="hero">
-  <div class="hero-blob1"></div>
-  <div class="hero-blob2"></div>
-  <div class="wrap">
-    <div>
-      <div class="hero-live">
-        <span class="live-dot"></span>
-        Şu an müsait &nbsp;·&nbsp; Yeni proje kabul ediyorum
-      </div>
-      <h1 class="display">
-        İşletmenize<br>
-        <span class="accent">Profesyonel</span><br>
-        Web Sitesi Yapıyorum
-      </h1>
-      <p>Müşterileriniz sizi internette kolayca bulsun, rakiplerinizin önüne geçin. Hızlı, modern ve mobil uyumlu çözümler.</p>
-      <div class="hero-btns">
-        <a href="https://wa.me/905453773476?text=Merhaba%20U%C4%9Fur%2C%20web%20sitesi%20yapt%C4%B1rmak%20istiyorum." target="_blank" rel="noopener" class="btn btn-wa">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          WhatsApp'tan Yaz
-        </a>
-        <a href="#portfoy" class="btn btn-ghost">Çallışmalarımı Gör →</a>
-      </div>
-    </div>
+    // ==========================================
+    // 1. NAVBAR BİLEŞENİ
+    // ==========================================
+    const Navbar = () => {
+      const [scrolled, setScrolled] = useState(false);
+      useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
 
-    <div>
-      <div class="browser">
-        <div class="browser-top">
-          <div class="dots">
-            <div class="dot dot-r"></div>
-            <div class="dot dot-y"></div>
-            <div class="dot dot-g"></div>
+      return (
+        <motion.nav 
+          initial={{ y: -20, opacity: 0 }} 
+          animate={{ y: 0, opacity: 1 }} 
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${
+            scrolled ? 'bg-bofBg/70 backdrop-blur-md border-white/[0.06] py-4' : 'bg-transparent border-transparent py-6'
+          }`}
+        >
+          <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+            <a href="#" className="text-xl font-bold tracking-tighter">BOF MEDIA</a>
+            <div className="hidden md:flex gap-8">
+              {['Hizmetler', 'Süreç', 'Projeler', 'Hakkımda', 'İletişim'].map(item => (
+                <a key={item} href={`#${item.toLowerCase()}`} className="text-sm text-bofMuted hover:text-white transition-colors duration-300">
+                  {item}
+                </a>
+              ))}
+            </div>
+            <a href="#iletisim" className="bg-bofPrimary hover:bg-bofPrimary/90 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-all shadow-lg shadow-bofPrimary/20">
+              Ücretsiz Görüş
+            </a>
           </div>
-          <div class="urlbar">ugur-webstudio.com</div>
+        </motion.nav>
+      );
+    };
+
+    // ==========================================
+    // 2. HERO BİLEŞENİ
+    // ==========================================
+    const Hero = () => {
+      const cards = [
+        { title: "KUŞADASI OTELİ", metric: "+38%", desc: "Daha fazla rezervasyon", tags: ["Mobil Uyumlu", "Google SEO", "2 Haftada Teslim"] },
+        { title: "RESTORAN SİTESİ", metric: "+57%", desc: "Online rezervasyon artışı", tags: ["Hız Optimize", "QR Menü"] },
+        { title: "AI MÜŞTERİ ASİSTANI", metric: "7/24", desc: "Otomatik cevap", tags: ["Otomasyon", "Entegrasyon"] }
+      ];
+
+      return (
+        <section className="relative pt-44 pb-32 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          {/* Hafif Işık Hüzmesi */}
+          <div className="absolute top-1/4 left-1/4 -z-10 w-[600px] h-[300px] bg-bofPrimary/5 blur-[120px] rounded-full pointer-events-none" />
+          
+          {/* Sol Kısım */}
+          <div className="lg:col-span-7 space-y-8">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} 
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.06] text-xs font-medium text-white/90 tracking-wide"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              ● Yeni proje kabul ediyorum
+            </motion.div>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} 
+              className="text-5xl md:text-[80px] lg:text-[120px] font-bold tracking-tighter leading-[0.9] text-white"
+            >
+              Web Sitesinden Fazlası.<br/>İşletmenizi<br/>İnternette<br/>Büyüten<br/>
+              <span className="text-bofPrimary">Dijital Deneyimler.</span>
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} 
+              className="text-lg md:text-xl text-bofMuted font-normal max-w-xl leading-relaxed"
+            >
+              Modern web siteleri, yapay zeka otomasyonları ve güçlü dijital deneyimler tasarlıyorum.
+            </motion.p>
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} 
+              className="flex flex-wrap gap-4 pt-4"
+            >
+              <a href="#projeler" className="bg-bofPrimary hover:bg-bofPrimary/90 text-white font-medium px-8 py-4 rounded-xl transition-all shadow-xl shadow-bofPrimary/10">
+                Çalışmalarımı Gör
+              </a>
+              <a href="https://wa.me/1234567890" target="_blank" className="bg-transparent hover:bg-white/[0.02] border border-white/[0.08] text-white font-medium px-8 py-4 rounded-xl transition-all">
+                WhatsApp'tan Yaz
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Sağ Kısım - Metrik Kartları */}
+          <div className="lg:col-span-5 space-y-5 relative">
+            {cards.map((card, i) => (
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} 
+                transition={{ duration: 0.8, delay: 0.2 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.02)' }}
+                className="animate-subtle-float bg-white/[0.01] border border-white/[0.04] backdrop-blur-sm rounded-2xl p-6 flex items-center justify-between gap-6 transition-all duration-300"
+                style={{ animationDelay: `${i * 1.5}s` }}
+              >
+                <div className="space-y-2">
+                  <span className="text-[11px] font-bold tracking-widest text-bofMuted uppercase">{card.title}</span>
+                  <p className="text-sm text-white/90 font-medium">{card.desc}</p>
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {card.tags.map(t => (
+                      <span key={t} className="text-[10px] bg-white/[0.02] border border-white/[0.04] text-bofMuted px-2 py-0.5 rounded">{t}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="text-3xl font-bold tracking-tighter text-bofPrimary">{card.metric}</div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 3. GÜVEN (TRUST) BİLEŞENİ
+    // ==========================================
+    const Trust = () => {
+      const features = [
+        { icon: "⚡", title: "Hızlı Teslim" },
+        { icon: "📱", title: "Mobil Uyumlu" },
+        { icon: "🔍", title: "SEO Uyumlu" },
+        { icon: "🤖", title: "Yapay Zeka Entegrasyonu" }
+      ];
+      return (
+        <section id="hizmetler" className="py-32 px-6 max-w-7xl mx-auto border-t border-white/[0.04]">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-center mb-16">İşletmeler Neden BOF MEDIA'yı Seçiyor?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((f, i) => (
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} 
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                whileHover={{ y: -4, borderColor: 'rgba(255,255,255,0.08)' }}
+                className="bg-white/[0.01] border border-white/[0.03] rounded-2xl p-8 backdrop-blur-sm flex flex-col items-center text-center gap-4 transition-all"
+              >
+                <div className="text-2xl w-12 h-12 flex items-center justify-center rounded-xl bg-white/[0.02] border border-white/[0.05]">{f.icon}</div>
+                <h3 className="text-lg font-medium tracking-tight text-white/90">{f.title}</h3>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 4. PORTFOLYO BİLEŞENİ
+    // ==========================================
+    const Portfolio = () => {
+      const projects = [
+        { type: "OTEL", desc: "Lüks oteller için premium dönüşüm odaklı web deneyimi.", techs: ["React", "Tailwind", "Framer"], result: "+38% Rezervasyon Artışı" },
+        { type: "RESTORAN", desc: "Menü ve online sipariş akışını optimize eden kurumsal arayüz.", techs: ["Next.js", "UI/UX"], result: "+57% Dijital Ciro" },
+        { type: "AI OTOMASYON", desc: "Müşteri ilişkilerini otomatize eden yapay zeka altyapısı.", techs: ["Python", "OpenAI API"], result: "%40 Operasyon Tasarrufu" }
+      ];
+      return (
+        <section id="projeler" className="py-32 border-t border-white/[0.04] w-full">
+          <div className="max-w-7xl mx-auto px-6 mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Gerçek Sonuçlar.</h2>
+            <p className="text-lg text-bofMuted max-w-xl leading-relaxed">
+              Tasarladığım her proje estetik görünmek için değil, işletmeye müşteri kazandırmak için yapılır.
+            </p>
+          </div>
+          <div className="max-w-7xl mx-auto px-6 space-y-12">
+            {projects.map((p, i) => (
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
+                className="group grid grid-cols-1 lg:grid-cols-12 bg-white/[0.01] border border-white/[0.04] rounded-[2rem] overflow-hidden hover:border-white/[0.08] transition-all duration-300"
+              >
+                {/* Sol Görsel Alanı (Sahte mockup yok, mimari yapı) */}
+                <div className="lg:col-span-7 p-12 bg-white/[0.015] flex items-center justify-center min-h-[400px] border-b lg:border-b-0 lg:border-r border-white/[0.04] relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-bofPrimary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="w-full max-w-md h-full border border-white/[0.05] bg-bofBg rounded-xl p-6 shadow-2xl flex flex-col gap-4 relative z-10">
+                     <div className="flex justify-between border-b border-white/[0.05] pb-4">
+                       <div className="w-20 h-2 bg-white/[0.05] rounded-full"/>
+                       <div className="w-8 h-2 bg-bofPrimary/20 rounded-full"/>
+                     </div>
+                     <div className="w-full h-3 bg-white/[0.03] rounded-full"/>
+                     <div className="w-2/3 h-3 bg-white/[0.03] rounded-full"/>
+                     <div className="flex-1 mt-4 bg-white/[0.01] border border-white/[0.04] rounded-lg flex items-center justify-center text-[10px] text-bofMuted font-mono uppercase tracking-widest">
+                       [ {p.type} GERÇEK ARAYÜZ ]
+                     </div>
+                  </div>
+                </div>
+                {/* Sağ Bilgi Alanı */}
+                <div className="lg:col-span-5 p-12 flex flex-col justify-center gap-6">
+                  <span className="text-xs font-bold tracking-widest text-bofPrimary">{p.type}</span>
+                  <p className="text-xl text-white/90 font-medium leading-relaxed">{p.desc}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {p.techs.map(t => <span key={t} className="text-[11px] bg-white/[0.02] border border-white/[0.05] text-bofMuted px-3 py-1.5 rounded-full">{t}</span>)}
+                  </div>
+                  <div className="pt-6 border-t border-white/[0.04]">
+                    <span className="text-xs text-bofMuted block mb-2 uppercase tracking-wider">Elde Edilen Sonuç</span>
+                    <span className="text-2xl font-bold tracking-tight text-emerald-400">{p.result}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 5. SÜREÇ BİLEŞENİ
+    // ==========================================
+    const Process = () => {
+      const steps = [
+        { num: "1", title: "Sizi Dinliyorum" },
+        { num: "2", title: "Strateji Oluşturuyorum" },
+        { num: "3", title: "Tasarlıyor ve Geliştiriyorum" },
+        { num: "4", title: "Teslim ve Destek" }
+      ];
+      return (
+        <section id="süreç" className="py-32 border-t border-white/[0.04] px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl font-bold tracking-tight mb-20">Nasıl Çalışıyorum?</h2>
+            <div className="flex flex-col items-center gap-6">
+              {steps.map((s, i) => (
+                <React.Fragment key={i}>
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.5 }}
+                    className="bg-white/[0.01] border border-white/[0.05] px-8 py-5 rounded-2xl w-full max-w-sm flex items-center justify-between backdrop-blur-sm"
+                  >
+                    <span className="text-bofPrimary font-bold text-xl">{s.num}</span>
+                    <h3 className="text-lg font-medium text-white/90">{s.title}</h3>
+                    <div className="w-4" /> {/* Spacer */}
+                  </motion.div>
+                  {i !== steps.length - 1 && (
+                    <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="text-bofMuted/50 text-xl font-light">↓</motion.div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 6. HAKKIMDA BİLEŞENİ
+    // ==========================================
+    const About = () => {
+      return (
+        <section id="hakkımda" className="py-32 border-t border-white/[0.04] px-6">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Ben kimim?</h2>
+              <p className="text-xl text-white font-medium leading-relaxed">
+                BOF MEDIA'nın kurucusuyum.
+              </p>
+              <p className="text-lg text-bofMuted leading-relaxed">
+                İşletmelerin internette daha profesyonel görünmesi ve daha fazla müşteri kazanması için modern web siteleri, yapay zeka çözümleri ve otomasyon sistemleri geliştiriyorum.
+              </p>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="flex justify-center lg:justify-end">
+              <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full border border-white/[0.05] bg-white/[0.01] flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-bofPrimary/10 to-transparent opacity-60" />
+                <div className="text-bofMuted text-xs font-mono tracking-widest z-10">[ PROFİL FOTOĞRAFI ALANI ]</div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 7. CTA (ÇAĞRI) BİLEŞENİ
+    // ==========================================
+    const CTA = () => {
+      return (
+        <section className="py-40 relative border-t border-white/[0.04] overflow-hidden flex items-center justify-center text-center px-6">
+          <div className="absolute inset-0 bg-bofPrimary/5 blur-[150px] -z-10" />
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-12">
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tighter leading-[1.1] text-white">
+              İşletmeniz İçin Sıradan Bir Web Sitesi Mi,<br/>Yoksa <br className="hidden md:block"/>
+              <span className="text-bofPrimary">İnsanların Güvendiği Bir Marka Mı</span> İstiyorsunuz?
+            </h2>
+            <a href="#iletisim" className="inline-block bg-bofPrimary hover:bg-bofPrimary/90 text-white font-medium px-10 py-5 rounded-2xl text-lg transition-all shadow-2xl shadow-bofPrimary/20">
+              Hemen İletişime Geç
+            </a>
+          </motion.div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 8. FOOTER BİLEŞENİ
+    // ==========================================
+    const Footer = () => {
+      return (
+        <footer id="iletisim" className="border-t border-white/[0.04] py-16 px-6 bg-white/[0.01]">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+            <div className="md:col-span-2">
+              <div className="text-2xl font-bold tracking-tighter mb-2">BOF MEDIA</div>
+              <p className="text-sm text-bofMuted max-w-xs">İnternette Büyüten Dijital Deneyimler.</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <span className="font-semibold text-white/90 mb-2">Hizmetler</span>
+              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">Web Sitesi</a>
+              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">AI Otomasyon</a>
+              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">Marka Tasarımı</a>
+            </div>
+            <div className="flex flex-col gap-3">
+              <span className="font-semibold text-white/90 mb-2">İletişim</span>
+              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">Instagram</a>
+              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">LinkedIn</a>
+              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">WhatsApp</a>
+              <a href="#" className="text-sm text-bofMuted hover:text-white transition-colors">Email</a>
+            </div>
+          </div>
+          <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/[0.04] text-center md:text-left text-xs text-bofMuted">
+            &copy; 2024 BOF MEDIA. Tüm hakları saklıdır.
+          </div>
+        </footer>
+      );
+    };
+
+    // ==========================================
+    // ANA UYGULAMA (APP) BİRLEŞTİRİCİSİ
+    // ==========================================
+    const App = () => {
+      return (
+        <div className="selection:bg-bofPrimary/30 selection:text-white">
+          <Navbar />
+          <Hero />
+          <Trust />
+          <Portfolio />
+          <Process />
+          <About />
+          <CTA />
+          <Footer />
         </div>
-        <div class="browser-body">
-          <div class="mock">
-            <div class="mock-label">Turizm & Otel</div>
-            <div class="mock-h">Kusadasi'nın<br>En İyi Konaklama</div>
-            <div class="mock-p">Ege'nin incisi Kuşadası'nda lüks ve konforun buluşma noktası. Erken rezervasyonla %20 indirim.</div>
-            <div class="mock-cta">Oda Seçin →</div>
-          </div>
-          <div class="mock-cards">
-            <div class="mock-card">
-              <div class="mc-icon">🏊</div>
-              <div class="mc-t">Açık Havuz</div>
-              <div class="mc-s">Deniz manzaralı infinity pool</div>
-            </div>
-            <div class="mock-card">
-              <div class="mc-icon">🍽️</div>
-              <div class="mc-t">Restoran</div>
-              <div class="mc-s">Açık büfe kahvaltı dahil</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      );
+    };
 
-<div class="stats-bar">
-  <div class="wrap">
-    <div>
-      <div class="stat-n">48 Saat</div>
-      <div class="stat-l">İlk taslak teslimi</div>
-    </div>
-    <div>
-      <div class="stat-n">%100</div>
-      <div class="stat-l">Mobil uyumlu siteler</div>
-    </div>
-    <div>
-      <div class="stat-n">7/24</div>
-      <div class="stat-l">WhatsApp destek</div>
-    </div>
-  </div>
-</div>
-
-<section class="webusta">
-  <div class="wrap">
-    <div class="webusta-hero">
-      <div class="webusta-badge">WEBUSTA</div>
-      <h2 class="heading">Rakibin seni Google'da geçiyor — <span>şu an.</span></h2>
-      <p class="webusta-strike">Web siten yok, <del>müşteri var</del> diyemezsin.</p>
-      <p class="webusta-desc">Kuşadası'nda bir restoran, pansiyon veya esnaf Google'da çıkmıyorsa, müşteri doğrudan rakibine gidiyor. Bunu okurken bile birileri rakibini arıyor.</p>
-    </div>
-
-    <div class="webusta-calc-card" id="calcCard">
-      <h3>Kaç müşteri kaçıyor? Sektörünü yaz, hesaplayalım.</h3>
-      <div class="webusta-input-group">
-        <input type="text" id="sectorInput" placeholder="Sektörünüzü yazın (Örn: Restoran, Pansiyon, Otel)">
-        <button onclick="calculateCustomers()" class="btn btn-blue">Hesapla</button>
-      </div>
-      <p class="webusta-calc-sub">Ücretsiz · 10 saniye · Taahhüt yok</p>
-    </div>
-
-    <div class="webusta-compare-grid">
-      <div class="webusta-card">
-        <h4>ŞU AN <span class="status-tag status-bad">web sitesiz</span></h4>
-        <ul>
-          <li><span class="icon-bad">✕</span> Google'da görünmüyorsun</li>
-          <li><span class="icon-bad">✕</span> Müşteri güvenmiyor</li>
-          <li><span class="icon-bad">✕</span> Rakip seni geçiyor</li>
-          <li><span class="icon-bad">✕</span> Telefon susuyor</li>
-        </ul>
-      </div>
-      <div class="webusta-card">
-        <h4>7 GÜN SONRA <span class="status-tag status-good">siteli</span></h4>
-        <ul>
-          <li><span class="icon-good">✓</span> Google'da ilk sayfa</li>
-          <li><span class="icon-good">✓</span> Müşteride %100 güven algısı</li>
-          <li><span class="icon-good">✓</span> Rakibi sen geçiyorsun</li>
-          <li><span class="icon-good">✓</span> Telefon çalmaya başlıyor</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="services" id="hizmetler">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="tag">Hizmetlerim</div>
-      <h2 class="heading">İşletmeniz İçin Doğru Çözüm</h2>
-      <p>Her bütçeye ve ihtiyaca uygun profesyonel web sitesi paketleri.</p>
-    </div>
-    <div class="srv-grid">
-
-      <div class="srv-card">
-        <div class="srv-icon">🚀</div>
-        <h3>Landing Page</h3>
-        <p>Tek sayfalık, güçlü bir tanıtım sitesi. Ziyaretçileri müşteriye dönüştürür.</p>
-        <ul class="srv-list">
-          <li>Hızlı yükleme süresi</li>
-          <li>WhatsApp / telefon entegrasyonu</li>
-          <li>Google Maps eklentisi</li>
-          <li>Mobil öncelikli tasarım</li>
-        </ul>
-      </div>
-
-      <div class="srv-card">
-        <div class="srv-icon">🏢</div>
-        <h3>Kurumsal Web Sitesi</h3>
-        <p>Hakkımda, hizmetler, referanslar ve iletişim sayfalarıyla tam kapsamlı dijital varlık.</p>
-        <ul class="srv-list">
-          <li>Çok sayfalı yapı</li>
-          <li>SEO optimizasyonu</li>
-          <li>Blog / haber bölümü</li>
-          <li>Özel alan adı kurulumu</li>
-        </ul>
-      </div>
-
-      <div class="srv-card">
-        <div class="srv-icon">🏨</div>
-        <h3>Otel & Turizm Sitesi</h3>
-        <p>Oda galerisi, rezervasyon CTA'ları, Türkçe SEO içeriğiyle otel ve pansiyon siteleri.</p>
-        <ul class="srv-list">
-          <li>Oda & fiyat bölümü</li>
-          <li>Fotoğraf galerileri</li>
-          <li>Rezervasyon yönlendirme</li>
-          <li>Konum & ulaşım bilgisi</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="process" id="surecim">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="tag">Nasıl Çalışırım</div>
-      <h2 class="heading">4 Adımda Web Siteniz Hazır</h2>
-      <p>Başlangıçtan yayına kadar tüm süreci sizinle birlikte yönetiyorum.</p>
-    </div>
-    <div class="steps-row">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Görüşme</h3>
-        <p>WhatsApp üzerinden ihtiyaçlarınızı ve hedeflerinizi dinliyorum.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Tasarım</h3>
-        <p>İlk taslağı 48 saat içinde hazırlayıp onayınıza sunuyorum.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Revizyon</h3>
-        <p>Geri bildirimlerinize göre düzenlemeler yapıyorum.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Yayın</h3>
-        <p>Sitenizi alan adıyla birlikte canlıya alıyorum.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="portfolio" id="portfoy">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="tag">Örnek Çalışmalar</div>
-      <h2 class="heading">Farklı Sektörlerde Tasarımlar</h2>
-      <p>E-ticaretten sağlığa, kurumsal şirketlerden turizme kadar her sektörde çözümler.</p>
-    </div>
-
-    <div class="pf-wrap">
-      <div class="pf-card">
-        <div class="pf-preview">
-          <div class="pf-nav-bar">
-            <div class="pf-brand">GRAND HOTEL</div>
-            <div class="pf-navl">
-              <span>Odalar</span><span>Galeri</span><span>Rezervasyon</span>
-            </div>
-          </div>
-          <div>
-            <div class="pf-sector">Otel & Turizm</div>
-            <div class="pf-h">Ege'nin İncisi<br>Kuşadası'nda<br>Lüks Konaklama</div>
-            <div class="pf-p">Huzurun ve lüksün buluştuğu bu eşsiz deneyimi yaşamak için hemen rezervasyon yapın.</div>
-            <div class="pf-cta">Oda Rezervasyonu →</div>
-          </div>
-          <div class="pf-rooms">
-            <div class="pf-room">
-              <div class="pr-icon">🌊</div>
-              <div class="pr-t">Deniz Manzaralı</div>
-              <div class="pr-s">Panoramik Ege manzarası</div>
-            </div>
-            <div class="pf-room">
-              <div class="pr-icon">🍽️</div>
-              <div class="pr-t">Restoran & Bar</div>
-              <div class="pr-s">Açık büfe & à la carte</div>
-            </div>
-          </div>
-        </div>
-        <div class="pf-info">
-          <div class="pf-badge">Turizm Sektörü</div>
-          <h3>Otel & Konaklama Sitesi</h3>
-          <p>Kuşadası bölgesindeki bir butik otel için hazırladığımız bu site; oda galerisi, rezervasyon yönlendirme ve Türkçe SEO içeriğiyle doluluk oranını artırıyor.</p>
-          <div class="pf-chips">
-            <span class="chip">Oda Yönetimi</span>
-            <span class="chip">Hızlı Rezervasyon</span>
-            <span class="chip">Kuşadası SEO</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sector-grid">
-        <div class="sector-item"><span class="em">🍽️</span> Restoran & Kafe</div>
-        <div class="sector-item"><span class="em">🏡</span> Pansiyon & Apart</div>
-        <div class="sector-item"><span class="em">🔨</span> Yerel Esnaf & Usta</div>
-        <div class="sector-item"><span class="em">⚖️</span> Avukat & Danışman</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pricing" id="fiyatlar">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="tag">Fiyatlandırma</div>
-      <h2 class="heading">Net Fiyatlar, Gizli Ücret Yok</h2>
-      <p>İhtiyacınıza en uygun paketi seçin, profesyonel dönüşümü bugün başlatın.</p>
-    </div>
-    
-    <div class="pricing-grid">
-      <div class="pc">
-        <div class="pc-tier">Landing Page</div>
-        <div class="pc-price">2.500₺</div>
-        <div class="pc-note">Tek seferlik ödeme</div>
-        <hr class="pc-sep">
-        <ul class="pc-list">
-          <li>Tek Sayfa Modern Tasarım</li>
-          <li>Mobil ve Tablet Uyumlu</li>
-          <li>WhatsApp & Telefon Butonları</li>
-          <li>Google Harita Kaydı Entegrasyonu</li>
-          <li>48 Saatte Taslak Teslimi</li>
-        </ul>
-        <a href="https://wa.me/905453773476?text=Landing%20Page%20paketi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." class="pc-btn btn-outline">Satın Al</a>
-      </div>
-
-      <div class="pc pop">
-        <div class="pop-label">EN ÇOK TERCİH EDİLEN</div>
-        <div class="pc-tier">Kurumsal Site</div>
-        <div class="pc-price">4.500₺</div>
-        <div class="pc-note">Tek seferlik ödeme</div>
-        <hr class="pc-sep">
-        <ul class="pc-list">
-          <li>Çok Sayfalı Profesyonel Yapı</li>
-          <li>Hakkımızda, Hizmetler, İletişim</li>
-          <li>Gelişmiş Google SEO Altyapısı</li>
-          <li>Dinamik Blog veya Galeri Alanı</li>
-          <li>Özel Kurumsal E-posta Kurulumu</li>
-        </ul>
-        <a href="https://wa.me/905453773476?text=Kurumsal%20Site%20paketi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." class="pc-btn btn-solid">Hemen Başla</a>
-      </div>
-
-      <div class="pc">
-        <div class="pc-tier">Premium Turizm</div>
-        <div class="pc-price">7.500₺</div>
-        <div class="pc-note">Tek seferlik ödeme</div>
-        <hr class="pc-sep">
-        <ul class="pc-list">
-          <li>Otel, Pansiyon ve Turizme Özel</li>
-          <li>Gelişmiş Oda / Hizmet Kataloğu</li>
-          <li>Görsel Galeri & Rezervasyon CTA'ları</li>
-          <li>Çoklu Dil Desteği Altyapısı</li>
-          <li>7/24 Öncelikli Teknik Destek</li>
-        </ul>
-        <a href="https://wa.me/905453773476?text=Premium%20Turizm%20paketi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." class="pc-btn btn-outline">İletişime Geç</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="contact" id="iletisim">
-  <div class="wrap">
-    <h2>Rakiplerinizi Geride Bırakmaya Hazır mısınız?</h2>
-    <p>Gelin, işletmenizin internetteki yüzünü birlikte tasarlayalım. Kafanıza takılan tüm sorular için çekinmeden yazabilirsiniz.</p>
-    <div class="contact-btns">
-      <a href="https://wa.me/905453773476?text=Merhaba%20U%C4%9Fur%2C%20web%20sitesi%20projem%20i%C3%A7in%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." target="_blank" rel="noopener" class="btn btn-wa">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        Hemen Mesaj Gönder
-      </a>
-    </div>
-    <div class="contact-meta">
-      <span>0545 377 34 76</span>
-      <span>brainofmediaglobal@gmail.com</span>
-      <span>İstanbul/Turkey</span>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <p>&copy; 2026 BOFMEDIA. Tüm hakları saklıdır.</p>
-    <p class="location">Kuşadası / Aydın</p>
-  </div>
-</footer>
-
-<a href="https://wa.me/905453773476" class="float-wa" target="_blank" rel="noopener" aria-label="WhatsApp Destek">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-</a>
-
-<script>
-  function calculateCustomers() {
-    const sectorInput = document.getElementById('sectorInput');
-    const sectorValue = sectorInput.value.trim();
-    
-    if (sectorValue === '') {
-      alert('Lütfen sektörünüzü yazın!');
-      sectorInput.focus();
-      return;
-    }
-    
-    const calcCard = document.getElementById('calcCard');
-    
-    // Premium Touch: Canlı interaktif analiz yükleme simülasyonu
-    calcCard.style.opacity = '0.5';
-    calcCard.style.transform = 'scale(0.98)';
-    
-    setTimeout(() => {
-      calcCard.style.opacity = '1';
-      calcCard.style.transform = 'scale(1)';
-      
-      const baseMsg = `Merhaba Uğur, ${sectorValue} sektöründeki müşteri kaybını durdurmak ve web sitesi detaylarını görüşmek istiyorum.`;
-      const waUrl = `https://wa.me/905453773476?text=${encodeURIComponent(baseMsg)}`;
-      
-      // Kart içeriğini dinamik ve ikna edici hale getiriyoruz
-      calcCard.innerHTML = `
-        <h3 style="color: var(--red); font-size: 1.5rem; margin-bottom: 0.8rem; font-family: 'Syne', sans-serif;">⚠️ Analiz Sonucu Bildirimi</h3>
-        <p style="font-size: 1.1rem; color: #fff; margin-bottom: 1.5rem; font-weight: 500;">
-          Kuşadası'nda her ay dijitalde <span style="color: var(--red); font-weight: 800;">${sectorValue}</span> arayan ortalama <span style="color: var(--blue); font-weight: 800;">1.200+ potansiyel müşteri</span> web siteniz olmadığı için rakibinize gidiyor!
-        </p>
-        <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-wa" style="font-size: 1rem; padding: 1rem 2rem; width: 100%;">
-          Bu Kaybı Hemen Durdur (WhatsApp)
-        </a>
-      `;
-    }, 600);
-  }
-</script>
-
+    // React'i DOM'a bas
+    const root = createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
 </body>
 </html>
