@@ -1,181 +1,1768 @@
 <!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BOF MEDIA | Premium Dijital Ajans</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/11.3.31/framer-motion.min.js"></script>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrainOfMedia — Web Tasarım & Dijital Kimlik</title>
+  <meta name="description" content="Küçük işletmenizi dijitale taşıyoruz. Premium web tasarım, logo, sosyal medya yönetimi. İstanbul merkezli, Türkiye geneli hizmet." />
+
+  <!-- Google Fonts: Inter (body) + Space Grotesk (display) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    body { 
-      font-family: 'Inter', system-ui, sans-serif; 
-      background-color: #050816; 
-      color: #ffffff; 
+    /* ============================================================
+       DESIGN TOKENS
+       ============================================================ */
+    :root {
+      /* Palette */
+      --bg-base:      #000000;
+      --bg-surface:   #0a0a0a;
+      --bg-card:      #0f0f0f;
+      --border:       rgba(255,255,255,0.07);
+
+      --accent-cyan:  #00e5ff;    /* neon cyan — primary accent */
+      --accent-blue:  #0051ff;    /* electric blue — secondary */
+      --accent-glow:  rgba(0,229,255,0.15);
+
+      --text-primary: #f0f0f0;
+      --text-muted:   #5a5a6a;
+      --text-dim:     #2e2e3a;
+
+      /* Typography */
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+
+      /* Spacing */
+      --section-py: clamp(80px, 12vw, 160px);
+      --container:  1160px;
     }
-    .glass {
-      background: rgba(255,255,255,0.015);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.08);
+
+    /* ============================================================
+       RESET + BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
-    .hero-text {
-      font-size: clamp(3.2rem, 8.5vw, 7.5rem);
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Accessibility: reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* ============================================================
+       UTILITY
+       ============================================================ */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 60px);
+    }
+
+    /* Eyebrow label above headings */
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 20px;
+    }
+
+    /* Section heading sizes */
+    .heading-xl {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 7vw, 92px);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+    }
+    .heading-lg {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4.5vw, 62px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+    }
+    .heading-md {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    /* Accent italic inline */
+    em { font-style: italic; color: var(--accent-cyan); }
+
+    /* Thin horizontal rule */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* Fade-up animation on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+    /* Primary: filled cyan */
+    .btn-primary {
+      background: var(--accent-cyan);
+      color: #000;
+      border: 2px solid var(--accent-cyan);
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent-cyan);
+      box-shadow: 0 0 28px var(--accent-glow);
+    }
+    /* Ghost: outline */
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    /* ============================================================
+       STAR FIELD CANVAS (ambient background)
+       ============================================================ */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    /* ============================================================
+       NAV
+       ============================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 0;
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    /* Logo mark */
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-logo .dot {
+      width: 8px; height: 8px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent-cyan);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.7); }
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* Mobile: hide links, show hamburger */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      nav .btn { display: none; }
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    #hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px clamp(20px,5vw,60px) 80px;
+      overflow: hidden;
+    }
+
+    /* Radial glow behind hero text */
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--accent-cyan);
+      opacity: 0.5;
+    }
+
+    #hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 8.5vw, 108px);
+      font-weight: 700;
       line-height: 0.95;
-      letter-spacing: -0.05em;
+      letter-spacing: -0.04em;
+      max-width: 900px;
+      margin-bottom: 28px;
     }
+    #hero h1 span {
+      display: block;
+      background: linear-gradient(135deg, #fff 30%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 48px;
+      line-height: 1.65;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Floating arrow indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+    .hero-scroll svg { width: 20px; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(8px); }
+    }
+
+    /* ============================================================
+       BRAND STRIP — "Güvenen Markalar"
+       ============================================================ */
+    #brand-strip {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 0;
+      background: var(--bg-surface);
+    }
+    .brand-strip-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(24px, 5vw, 64px);
+      flex-wrap: wrap;
+    }
+    .brand-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-muted);
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+    .brand-pill:hover { color: var(--text-primary); }
+    .brand-pill svg { width: 22px; height: 22px; opacity: 0.6; }
+    .brand-divider {
+      width: 1px; height: 24px;
+      background: var(--border);
+    }
+
+    /* ============================================================
+       WHAT WE DO — Builders Section
+       ============================================================ */
+    #builders {
+      position: relative;
+      z-index: 1;
+      padding: var(--section-py) 0;
+    }
+    .builders-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-top: 64px;
+    }
+    .builders-left p {
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      max-width: 480px;
+    }
+    .builders-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    /* Each service row */
+    .service-row {
+      display: flex;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      group: true;
+    }
+    .service-row:first-child { border-top: 1px solid var(--border); }
+    .service-row:hover .service-row-title { color: var(--accent-cyan); }
+    .service-row-num {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      padding-top: 4px;
+      min-width: 28px;
+    }
+    .service-row-content {}
+    .service-row-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      transition: color 0.2s;
+    }
+    .service-row-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .service-row-arrow {
+      margin-left: auto;
+      align-self: center;
+      color: var(--text-dim);
+      font-size: 20px;
+      transition: all 0.2s;
+    }
+    .service-row:hover .service-row-arrow {
+      color: var(--accent-cyan);
+      transform: translateX(4px);
+    }
+    @media (max-width: 800px) {
+      .builders-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    /* ============================================================
+       METRICS — Rakamlarla Ölçek
+       ============================================================ */
+    #metrics {
+      position: relative;
+      z-index: 1;
+      padding: var(--section-py) 0;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .metrics-heading {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .metric-card {
+      background: var(--bg-card);
+      padding: clamp(40px, 6vw, 72px) clamp(28px, 4vw, 52px);
+      display: flex;
+      flex-direction: column;
+    }
+    .metric-num {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 88px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--accent-cyan);
+      margin-bottom: 12px;
+    }
+    /* Counter animation */
+    .metric-num[data-count] { transition: none; }
+    .metric-label {
+      font-family: var(--font-display);
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .metric-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    @media (max-width: 680px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       PROCESS — Nasıl Çalışırız
+       ============================================================ */
+    #process {
+      position: relative;
+      z-index: 1;
+      padding: var(--section-py) 0;
+    }
+    .process-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 80px;
+    }
+    .process-intro p {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .process-step {
+      background: var(--bg-card);
+      padding: 40px 28px;
+    }
+    .step-index {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--accent-cyan);
+      margin-bottom: 20px;
+    }
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    @media (max-width: 900px) {
+      .process-intro { grid-template-columns: 1fr; gap: 32px; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 520px) {
+      .process-steps { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       PORTFOLIO — Projeler
+       ============================================================ */
+    #portfolio {
+      position: relative;
+      z-index: 1;
+      padding: var(--section-py) 0;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .portfolio-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .portfolio-card {
+      background: var(--bg-card);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16/10;
+      cursor: pointer;
+    }
+    /* Browser mockup bar */
+    .browser-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 32px;
+      background: #111;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 7px;
+      z-index: 2;
+    }
+    .browser-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+    }
+    .browser-dot:nth-child(1) { background: #ff5f57; }
+    .browser-dot:nth-child(2) { background: #febc2e; }
+    .browser-dot:nth-child(3) { background: #28c840; }
+    .browser-url {
+      margin-left: 12px;
+      flex: 1;
+      max-width: 180px;
+      height: 16px;
+      background: #1a1a1a;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+    .browser-url span {
+      font-size: 9px;
+      color: #444;
+      letter-spacing: 0.02em;
+    }
+    /* Card preview area — gradient placeholder */
+    .card-preview {
+      position: absolute;
+      inset: 32px 0 0;
+      display: flex;
+      align-items: flex-end;
+      padding: 28px;
+      transition: transform 0.5s ease;
+    }
+    .portfolio-card:hover .card-preview {
+      transform: scale(1.02);
+    }
+    /* Visual gradient backgrounds per project */
+    .project-hotel   { background: linear-gradient(145deg, #0d1b2a 0%, #112240 50%, #0a1628 100%); }
+    .project-rest    { background: linear-gradient(145deg, #1a0a00 0%, #3d1400 50%, #1a0800 100%); }
+    .project-salon   { background: linear-gradient(145deg, #0a001a 0%, #2d0070 50%, #0a0014 100%); }
+    .project-shop    { background: linear-gradient(145deg, #001a0d 0%, #003d1a 50%, #001408 100%); }
+    .card-info {
+      position: relative;
+      z-index: 2;
+    }
+    .card-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 6px;
+    }
+    .card-title-proj {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+    }
+    /* Decorative grid lines on card */
+    .card-grid-overlay {
+      position: absolute;
+      inset: 32px 0 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    /* Glowing circle accent on cards */
+    .card-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .portfolio-card:hover .card-glow { opacity: 0.5; }
+    @media (max-width: 640px) {
+      .portfolio-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       PRICING
+       ============================================================ */
+    #pricing {
+      position: relative;
+      z-index: 1;
+      padding: var(--section-py) 0;
+    }
+    .pricing-intro {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .pricing-intro p {
+      font-size: 17px;
+      color: var(--text-muted);
+      margin-top: 20px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .pricing-card {
+      background: var(--bg-card);
+      padding: clamp(32px, 4vw, 52px) clamp(24px, 3vw, 40px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: background 0.25s;
+    }
+    /* Featured / highlighted card */
+    .pricing-card.featured {
+      background: #080e18;
+    }
+    .pricing-card.featured::before {
+      content: 'EN POPÜLER';
+      position: absolute;
+      top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--accent-cyan);
+      color: #000;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      padding: 4px 16px;
+      border-radius: 0 0 6px 6px;
+    }
+    .pricing-tier {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .pricing-price {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .pricing-price sub {
+      font-size: 18px;
+      font-weight: 500;
+      vertical-align: bottom;
+      margin-right: 4px;
+      color: var(--text-muted);
+    }
+    .pricing-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex: 1;
+    }
+    .pricing-features li {
+      font-size: 14px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .pricing-features li .check {
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+      font-size: 15px;
+      margin-top: 1px;
+    }
+    .pricing-features li.included { color: var(--text-primary); }
+    @media (max-width: 860px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    }
+
+    /* ============================================================
+       WHY US — Küçük "Trust" bölümü
+       ============================================================ */
+    #why {
+      position: relative;
+      z-index: 1;
+      padding: var(--section-py) 0;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 56px;
+    }
+    .why-card {
+      background: var(--bg-card);
+      padding: 40px 32px;
+    }
+    .why-icon {
+      width: 40px; height: 40px;
+      margin-bottom: 20px;
+      color: var(--accent-cyan);
+    }
+    .why-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .why-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    @media (max-width: 720px) {
+      .why-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       CTA BANNER
+       ============================================================ */
+    #cta {
+      position: relative;
+      z-index: 1;
+      padding: var(--section-py) 0;
+      overflow: hidden;
+    }
+    /* Animated radial background */
+    #cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0,229,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-inner p {
+      font-size: 17px;
+      color: var(--text-muted);
+      margin: 24px auto 48px;
+      max-width: 560px;
+      line-height: 1.65;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    /* WhatsApp specific button */
+    .btn-whatsapp {
+      background: #25d366;
+      color: #000;
+      border: 2px solid #25d366;
+    }
+    .btn-whatsapp:hover {
+      background: transparent;
+      color: #25d366;
+      box-shadow: 0 0 28px rgba(37,211,102,0.2);
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 48px 0 32px;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 48px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 280px;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+    .footer-links-col h4 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .footer-links-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links-col li a {
+      font-size: 14px;
+      color: #3a3a4a;
+      transition: color 0.2s;
+    }
+    .footer-links-col li a:hover { color: var(--text-primary); }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-bottom p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       FLOATING WHATSAPP BUTTON
+       ============================================================ */
+    #wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 200;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    #wa-float:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 32px rgba(37,211,102,0.5);
+    }
+    #wa-float svg { width: 28px; height: 28px; fill: #000; }
+
+    /* ============================================================
+       MOBILE MENU OVERLAY
+       ============================================================ */
+    #mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: rgba(0,0,0,0.97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    #mobile-menu a:hover { color: var(--accent-cyan); }
+    #mobile-close {
+      position: absolute;
+      top: 24px; right: 24px;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
   </style>
 </head>
 <body>
-  <div id="root"></div>
 
-  <script>
-    const { useState, useEffect } = React;
-    const { motion } = FramerMotion;
+<!-- ============================================================
+     STARFIELD CANVAS
+     ============================================================ -->
+<canvas id="starfield"></canvas>
 
-    function Navbar() {
-      const [scrolled, setScrolled] = useState(false);
-      useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 40);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-      }, []);
+<!-- ============================================================
+     FLOATING WHATSAPP
+     ============================================================ -->
+<a id="wa-float"
+   href="https://wa.me/905XXXXXXXXX?text=Merhaba%2C%20web%20tasarım%20hakkında%20bilgi%20almak%20istiyorum."
+   target="_blank"
+   aria-label="WhatsApp ile iletişime geç">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 1C7.7 1 1 7.7 1 16c0 2.7.7 5.2 1.9 7.4L1 31l7.9-1.9C11 30.3 13.4 31 16 31c8.3 0 15-6.7 15-15S24.3 1 16 1zm0 27.3c-2.3 0-4.5-.6-6.4-1.8l-.4-.3-4.7 1.1 1.1-4.6-.3-.5C4.2 20.5 3.7 18.3 3.7 16 3.7 9.2 9.2 3.7 16 3.7S28.3 9.2 28.3 16 22.8 28.3 16 28.3zm7.8-9.3c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.6-.2-.9.2-.3.4-1 1.3-1.2 1.6-.2.3-.5.4-.9.1-.4-.2-1.6-.6-3-1.8-1.1-1-1.8-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.7 0-.2 0-.5-.1-.7-.2-.2-1-2.4-1.3-3.3-.3-.8-.7-.7-.9-.7-.2 0-.5 0-.8 0-.3 0-.7.1-1 .5C9 10.4 8 11.4 8 13.5c0 2.1 1.5 4.2 1.7 4.5.2.3 3 4.6 7.3 6.4 1 .4 1.8.7 2.4.9.9.3 1.8.3 2.4.2.7-.1 2.2-.9 2.5-1.8.3-.8.3-1.5.2-1.7-.1-.2-.4-.3-.8-.5z"/>
+  </svg>
+</a>
 
-      return React.createElement(motion.nav, {
-        initial: { y: -100 },
-        animate: { y: 0 },
-        className: `fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'py-5 bg-[#050816]/95 backdrop-blur-xl border-b border-white/5' : 'py-8 bg-transparent'}`
-      },
-        React.createElement('div', { className: "max-w-screen-2xl mx-auto px-8 flex items-center justify-between" },
-          React.createElement('a', { href: "#", className: "text-2xl font-semibold tracking-tighter" }, "BOF MEDIA"),
-          React.createElement('div', { className: "hidden md:flex gap-10 text-sm font-medium" },
-            ["Hizmetler","Süreç","Projeler","Hakkımda","İletişim"].map(item => 
-              React.createElement('a', { 
-                href: `#${item.toLowerCase()}`, 
-                className: "text-[#8A90A5] hover:text-white transition-colors" 
-              }, item)
-            )
-          ),
-          React.createElement('a', { 
-            href: "#iletisim", 
-            className: "px-6 py-3 bg-[#3B5FFF] hover:bg-[#2e4fe6] rounded-2xl font-semibold text-sm transition-all" 
-          }, "Ücretsiz Görüş")
-        )
-      );
+<!-- ============================================================
+     MOBILE MENU
+     ============================================================ -->
+<div id="mobile-menu">
+  <span id="mobile-close" onclick="closeMobileMenu()">✕</span>
+  <a href="#builders"  onclick="closeMobileMenu()">Hizmetler</a>
+  <a href="#metrics"   onclick="closeMobileMenu()">Rakamlar</a>
+  <a href="#portfolio" onclick="closeMobileMenu()">Portföy</a>
+  <a href="#pricing"   onclick="closeMobileMenu()">Fiyatlar</a>
+  <a href="https://wa.me/905XXXXXXXXX" class="btn btn-primary" target="_blank">WhatsApp</a>
+</div>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <!-- Logo -->
+    <a href="#" class="nav-logo">
+      <div class="dot"></div>
+      BrainOfMedia
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="nav-links">
+      <li><a href="#builders">Hizmetler</a></li>
+      <li><a href="#metrics">Neden Biz</a></li>
+      <li><a href="#portfolio">Portföy</a></li>
+      <li><a href="#pricing">Fiyatlar</a></li>
+    </ul>
+
+    <!-- CTA -->
+    <a href="https://wa.me/905XXXXXXXXX?text=Merhaba%2C%20bilgi%20almak%20istiyorum."
+       class="btn btn-primary" target="_blank">
+      Ücretsiz Görüş
+    </a>
+
+    <!-- Hamburger -->
+    <div class="nav-hamburger" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero">
+  <div class="hero-eyebrow">
+    <span>İstanbul'dan Türkiye'ye</span>
+  </div>
+
+  <h1 class="reveal">
+    <span>İşletmenizin</span>
+    <span>Dijital <em>Yüzünü</em></span>
+    <span>Tasarlıyoruz.</span>
+  </h1>
+
+  <p class="hero-sub reveal">
+    Restoran, kuaför, butik, klinik — hangi sektörde olursanız olun;
+    sizi müşterinize doğru şekilde tanıtan web siteleri yapıyoruz.
+    Hızlı. Modern. Sonuç odaklı.
+  </p>
+
+  <div class="hero-cta reveal">
+    <a href="https://wa.me/905XXXXXXXXX?text=Merhaba%2C%20web%20sitem%20için%20görüşmek%20istiyorum."
+       class="btn btn-primary" target="_blank">
+      ⚡ Hemen Başlayalım
+    </a>
+    <a href="#portfolio" class="btn btn-ghost">Projeleri Gör →</a>
+  </div>
+
+  <!-- Scroll arrow -->
+  <div class="hero-scroll">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     BRAND STRIP
+     ============================================================ -->
+<div id="brand-strip">
+  <div class="container brand-strip-inner">
+    <!-- Real sector icons as text logos — easily replaceable with SVGs -->
+    <span class="brand-pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v4H3zM3 17h18v4H3zM3 10h7v4H3zM14 10h7v4h-7z"/></svg>
+      Restoranlar
+    </span>
+    <span class="brand-divider"></span>
+    <span class="brand-pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      Güzellik Merkezleri
+    </span>
+    <span class="brand-divider"></span>
+    <span class="brand-pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      Klinikler
+    </span>
+    <span class="brand-divider"></span>
+    <span class="brand-pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.86.18-1a3 3 0 0 0-6 0c0 .14.11.56.18 1H10a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg>
+      Butikler &amp; Mağazalar
+    </span>
+    <span class="brand-divider"></span>
+    <span class="brand-pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.69L4.21 11.1 12 7.31l7.79 3.79L12 15.69z"/></svg>
+      Eğitim Kurumları
+    </span>
+  </div>
+</div>
+
+<!-- ============================================================
+     BUILDERS — "Biz Yapıcıyız"
+     ============================================================ -->
+<section id="builders">
+  <div class="container">
+
+    <!-- Section label -->
+    <p class="eyebrow">Hizmetlerimiz</p>
+
+    <div class="builders-grid">
+      <!-- Left: big claim -->
+      <div class="builders-left reveal">
+        <h2 class="heading-lg">
+          Biz <em>dijital kimlik</em> inşa ediyoruz.
+          <br/>Daha önce imkansız görüneni yaptık.
+        </h2>
+        <p style="margin-top:28px;">
+          Her proje tek ve özgün bir hedefle başlar: ziyaretçiyi müşteriye dönüştürmek.
+          Sadece güzel site yapmıyoruz — işletmenizi büyütecek araçlar yaratıyoruz.
+          Tasarımdan SEO'ya, WhatsApp entegrasyonundan Google Haritalar'a kadar.
+        </p>
+      </div>
+
+      <!-- Right: service rows -->
+      <div class="builders-right reveal">
+
+        <div class="service-row">
+          <span class="service-row-num">01</span>
+          <div class="service-row-content">
+            <div class="service-row-title">Web Tasarım &amp; Geliştirme</div>
+            <div class="service-row-desc">Hızlı, mobil uyumlu, modern tek veya çok sayfalı siteler. Kurumsal veya e-ticaret.</div>
+          </div>
+          <span class="service-row-arrow">→</span>
+        </div>
+
+        <div class="service-row">
+          <span class="service-row-num">02</span>
+          <div class="service-row-content">
+            <div class="service-row-title">Logo &amp; Marka Kimliği</div>
+            <div class="service-row-desc">Rakiplerinizden ayrışan logo, renk paleti, font seçimi ve marka kılavuzu.</div>
+          </div>
+          <span class="service-row-arrow">→</span>
+        </div>
+
+        <div class="service-row">
+          <span class="service-row-num">03</span>
+          <div class="service-row-content">
+            <div class="service-row-title">SEO &amp; Google Haritalar</div>
+            <div class="service-row-desc">"Yakınımdaki [işletme]" aramalarında üst sıralara çıkın. Lokal SEO uzmanlığı.</div>
+          </div>
+          <span class="service-row-arrow">→</span>
+        </div>
+
+        <div class="service-row">
+          <span class="service-row-num">04</span>
+          <div class="service-row-content">
+            <div class="service-row-title">Sosyal Medya &amp; İçerik</div>
+            <div class="service-row-desc">Instagram, TikTok ve Facebook için tasarım şablonları ve içerik takvimi.</div>
+          </div>
+          <span class="service-row-arrow">→</span>
+        </div>
+
+        <div class="service-row">
+          <span class="service-row-num">05</span>
+          <div class="service-row-content">
+            <div class="service-row-title">Bakım &amp; Teknik Destek</div>
+            <div class="service-row-desc">Site güncellemeleri, yedekleme, güvenlik ve 7/24 WhatsApp destek.</div>
+          </div>
+          <span class="service-row-arrow">→</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     METRICS
+     ============================================================ -->
+<section id="metrics">
+  <div class="container">
+    <div class="metrics-heading reveal">
+      <p class="eyebrow">Rakamlarla Ölçek</p>
+      <h2 class="heading-lg">Sonuçlar konuşur.</h2>
+    </div>
+
+    <div class="metrics-grid">
+
+      <div class="metric-card reveal">
+        <div class="metric-num" data-target="87" data-suffix="+">0+</div>
+        <div class="metric-label">Tamamlanan Proje</div>
+        <div class="metric-sub">Farklı sektörlerden Türkiye genelinde</div>
+      </div>
+
+      <div class="metric-card reveal">
+        <div class="metric-num" data-target="5" data-suffix=" Gün">0 Gün</div>
+        <div class="metric-label">Ortalama Teslimat</div>
+        <div class="metric-sub">Sipariş gününden yayına kadar hız rekoru</div>
+      </div>
+
+      <div class="metric-card reveal">
+        <div class="metric-num" data-target="98" data-suffix="%">0%</div>
+        <div class="metric-label">Müşteri Memnuniyeti</div>
+        <div class="metric-sub">Geri dönüş ve referans oranımız</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCESS — Nasıl Çalışırız
+     ============================================================ -->
+<section id="process">
+  <div class="container">
+
+    <div class="process-intro">
+      <div class="reveal">
+        <p class="eyebrow">Süreç</p>
+        <h2 class="heading-lg">Fikrinden <em>canlı siteye</em> dört adımda.</h2>
+      </div>
+      <p class="reveal">
+        Uzun toplantılar yok, belirsiz süreçler yok. Her adım netleştirilmiş,
+        siz süreci takip edebilirsiniz. Teslimat günü kutlandığında sürpriz olmaz.
+      </p>
+    </div>
+
+    <div class="process-steps reveal">
+
+      <div class="process-step">
+        <div class="step-index">01 — Keşif</div>
+        <div class="step-title">Sizi Tanıyoruz</div>
+        <p class="step-desc">WhatsApp üzerinden 15 dakikalık görüşme. İşletmenizi, hedef kitlenizi ve isteklerinizi dinliyoruz.</p>
+      </div>
+
+      <div class="process-step">
+        <div class="step-index">02 — Tasarım</div>
+        <div class="step-title">Taslak Oluştururuz</div>
+        <p class="step-desc">48 saat içinde ilk tasarım taslağı. İstediğiniz değişiklikleri anında uyguluyoruz.</p>
+      </div>
+
+      <div class="process-step">
+        <div class="step-index">03 — Geliştirme</div>
+        <div class="step-title">Kodu Yazarız</div>
+        <p class="step-desc">Hızlı, güvenli ve mobil uyumlu site geliştirme. WhatsApp ve haritalar entegrasyonu dahil.</p>
+      </div>
+
+      <div class="process-step">
+        <div class="step-index">04 — Yayın</div>
+        <div class="step-title">Siteniz Canlıya Geçer</div>
+        <p class="step-desc">Domain bağlantısı, hosting kurulumu ve Google'a tanıtım. Sonra bakım dönemi başlar.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PORTFOLIO
+     ============================================================ -->
+<section id="portfolio">
+  <div class="container">
+
+    <div class="portfolio-header reveal">
+      <div>
+        <p class="eyebrow">Portföy</p>
+        <h2 class="heading-lg">Projelerimizdensceçkiler.</h2>
+      </div>
+      <a href="https://wa.me/905XXXXXXXXX?text=Portföyünüzü%20görmek%20istiyorum."
+         class="btn btn-ghost" target="_blank">
+        Tüm Projeleri Gör →
+      </a>
+    </div>
+
+    <div class="portfolio-grid reveal">
+
+      <!-- Proje 1 -->
+      <div class="portfolio-card">
+        <div class="browser-bar">
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-url"><span>montenegrosuitehotel.com</span></div>
+        </div>
+        <div class="card-grid-overlay"></div>
+        <div class="card-preview project-hotel">
+          <!-- Decorative elements simulating website content -->
+          <div style="position:absolute;top:50px;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;">
+            <div style="height:3px;width:60px;background:var(--accent-cyan);border-radius:2px;"></div>
+            <div style="height:22px;width:70%;background:rgba(255,255,255,0.12);border-radius:4px;"></div>
+            <div style="height:14px;width:50%;background:rgba(255,255,255,0.06);border-radius:3px;"></div>
+            <div style="height:14px;width:40%;background:rgba(255,255,255,0.06);border-radius:3px;"></div>
+            <div style="height:36px;width:120px;background:rgba(0,229,255,0.25);border-radius:4px;margin-top:8px;border:1px solid rgba(0,229,255,0.4);"></div>
+          </div>
+          <!-- Glow -->
+          <div class="card-glow" style="bottom:-40px;right:-40px;width:200px;height:200px;background:rgba(0,81,255,0.3);opacity:0.3;"></div>
+          <div class="card-info">
+            <div class="card-tag">Otel &amp; Konaklama</div>
+            <div class="card-title-proj">Montenegro Suite Hotel</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proje 2 -->
+      <div class="portfolio-card">
+        <div class="browser-bar">
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-url"><span>saborrestaurant.com</span></div>
+        </div>
+        <div class="card-grid-overlay"></div>
+        <div class="card-preview project-rest">
+          <div style="position:absolute;top:50px;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;">
+            <div style="height:3px;width:60px;background:#ff6b35;border-radius:2px;"></div>
+            <div style="height:22px;width:65%;background:rgba(255,255,255,0.12);border-radius:4px;"></div>
+            <div style="height:14px;width:45%;background:rgba(255,255,255,0.06);border-radius:3px;"></div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <div style="height:70px;width:80px;background:rgba(255,107,53,0.15);border-radius:6px;border:1px solid rgba(255,107,53,0.2);"></div>
+              <div style="height:70px;width:80px;background:rgba(255,107,53,0.1);border-radius:6px;border:1px solid rgba(255,107,53,0.15);"></div>
+              <div style="height:70px;width:80px;background:rgba(255,107,53,0.08);border-radius:6px;border:1px solid rgba(255,107,53,0.12);"></div>
+            </div>
+          </div>
+          <div class="card-glow" style="top:-40px;left:-40px;width:200px;height:200px;background:rgba(255,107,53,0.25);opacity:0.3;"></div>
+          <div class="card-info">
+            <div class="card-tag" style="color:#ff6b35;">Restoran &amp; Kafe</div>
+            <div class="card-title-proj">Sabor Restaurant</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proje 3 -->
+      <div class="portfolio-card">
+        <div class="browser-bar">
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-url"><span>luminasalon.com.tr</span></div>
+        </div>
+        <div class="card-grid-overlay"></div>
+        <div class="card-preview project-salon">
+          <div style="position:absolute;top:50px;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;">
+            <div style="height:3px;width:60px;background:#c77dff;border-radius:2px;"></div>
+            <div style="height:22px;width:55%;background:rgba(255,255,255,0.12);border-radius:4px;"></div>
+            <div style="height:14px;width:40%;background:rgba(255,255,255,0.06);border-radius:3px;"></div>
+            <div style="height:14px;width:35%;background:rgba(255,255,255,0.04);border-radius:3px;"></div>
+            <div style="height:32px;width:140px;background:rgba(199,125,255,0.2);border-radius:20px;margin-top:12px;border:1px solid rgba(199,125,255,0.35);"></div>
+          </div>
+          <div class="card-glow" style="top:0;right:0;width:180px;height:180px;background:rgba(199,125,255,0.3);opacity:0.3;"></div>
+          <div class="card-info">
+            <div class="card-tag" style="color:#c77dff;">Güzellik &amp; Kuaför</div>
+            <div class="card-title-proj">Lumina Salon</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proje 4 -->
+      <div class="portfolio-card">
+        <div class="browser-bar">
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-url"><span>yesilboutique.com</span></div>
+        </div>
+        <div class="card-grid-overlay"></div>
+        <div class="card-preview project-shop">
+          <div style="position:absolute;top:50px;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;">
+            <div style="height:3px;width:60px;background:#52b788;border-radius:2px;"></div>
+            <div style="height:22px;width:60%;background:rgba(255,255,255,0.12);border-radius:4px;"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">
+              <div style="height:55px;background:rgba(82,183,136,0.12);border-radius:6px;border:1px solid rgba(82,183,136,0.18);"></div>
+              <div style="height:55px;background:rgba(82,183,136,0.08);border-radius:6px;border:1px solid rgba(82,183,136,0.12);"></div>
+              <div style="height:55px;background:rgba(82,183,136,0.06);border-radius:6px;border:1px solid rgba(82,183,136,0.10);"></div>
+              <div style="height:55px;background:rgba(82,183,136,0.10);border-radius:6px;border:1px solid rgba(82,183,136,0.15);"></div>
+            </div>
+          </div>
+          <div class="card-glow" style="bottom:-40px;left:50%;width:200px;height:200px;background:rgba(82,183,136,0.3);opacity:0.3;transform:translateX(-50%);"></div>
+          <div class="card-info">
+            <div class="card-tag" style="color:#52b788;">Butik &amp; E-Ticaret</div>
+            <div class="card-title-proj">Yeşil Boutique</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING
+     ============================================================ -->
+<section id="pricing">
+  <div class="container">
+
+    <div class="pricing-intro reveal">
+      <p class="eyebrow">Fiyatlandırma</p>
+      <h2 class="heading-lg">Şeffaf fiyat.<br/>Sürpriz yok.</h2>
+      <p>Her paket tek seferlik ödeme. Gizli ücret yok. İstediğiniz zaman yükseltilebilir.</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <!-- Başlangıç -->
+      <div class="pricing-card reveal">
+        <div class="pricing-tier">Başlangıç</div>
+        <div class="pricing-price"><sub>₺</sub>7.500</div>
+        <div class="pricing-desc">Dijitale ilk adımı atmak isteyenler için.</div>
+        <ul class="pricing-features">
+          <li class="included"><span class="check">✓</span> Tek sayfalık site (Landing Page)</li>
+          <li class="included"><span class="check">✓</span> Mobil uyumlu tasarım</li>
+          <li class="included"><span class="check">✓</span> WhatsApp butonu &amp; iletişim formu</li>
+          <li class="included"><span class="check">✓</span> Google Haritalar entegrasyonu</li>
+          <li class="included"><span class="check">✓</span> 1 ay ücretsiz revizyon</li>
+          <li style="color:var(--text-dim)"><span style="color:var(--text-dim)">✗</span> Blog / içerik bölümü</li>
+          <li style="color:var(--text-dim)"><span style="color:var(--text-dim)">✗</span> E-ticaret altyapısı</li>
+        </ul>
+        <a href="https://wa.me/905XXXXXXXXX?text=Başlangıç%20paketi%20hakkında%20bilgi%20almak%20istiyorum."
+           class="btn btn-ghost" target="_blank" style="width:100%;justify-content:center;">
+          Başlayalım →
+        </a>
+      </div>
+
+      <!-- Profesyonel (featured) -->
+      <div class="pricing-card featured reveal">
+        <div class="pricing-tier">Profesyonel</div>
+        <div class="pricing-price"><sub>₺</sub>14.900</div>
+        <div class="pricing-desc">Büyüyen işletmeler için eksiksiz dijital varlık.</div>
+        <ul class="pricing-features">
+          <li class="included"><span class="check">✓</span> Çok sayfalı web sitesi (5 sayfa)</li>
+          <li class="included"><span class="check">✓</span> Özel tasarım &amp; animasyonlar</li>
+          <li class="included"><span class="check">✓</span> Blog / haber bölümü</li>
+          <li class="included"><span class="check">✓</span> Lokal SEO kurulumu</li>
+          <li class="included"><span class="check">✓</span> Google Analytics entegrasyonu</li>
+          <li class="included"><span class="check">✓</span> 3 ay ücretsiz bakım</li>
+          <li class="included"><span class="check">✓</span> Logo tasarımı</li>
+        </ul>
+        <a href="https://wa.me/905XXXXXXXXX?text=Profesyonel%20paket%20hakkında%20bilgi%20almak%20istiyorum."
+           class="btn btn-primary" target="_blank" style="width:100%;justify-content:center;">
+          Hemen Başlayalım →
+        </a>
+      </div>
+
+      <!-- Kurumsal -->
+      <div class="pricing-card reveal">
+        <div class="pricing-tier">Kurumsal</div>
+        <div class="pricing-price" style="font-size:clamp(26px,3vw,38px);">Özel Fiyat</div>
+        <div class="pricing-desc">E-ticaret, üyelik sistemi veya özel proje için.</div>
+        <ul class="pricing-features">
+          <li class="included"><span class="check">✓</span> Sınırsız sayfa</li>
+          <li class="included"><span class="check">✓</span> E-ticaret / ödeme sistemi</li>
+          <li class="included"><span class="check">✓</span> Üyelik &amp; rezervasyon sistemi</li>
+          <li class="included"><span class="check">✓</span> Özel yazılım entegrasyonu</li>
+          <li class="included"><span class="check">✓</span> Tam marka kimliği paketi</li>
+          <li class="included"><span class="check">✓</span> 6 ay öncelikli destek</li>
+          <li class="included"><span class="check">✓</span> Performans optimizasyonu</li>
+        </ul>
+        <a href="https://wa.me/905XXXXXXXXX?text=Kurumsal%20proje%20görüşmesi%20yapmak%20istiyorum."
+           class="btn btn-ghost" target="_blank" style="width:100%;justify-content:center;">
+          Teklif Al →
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHY US
+     ============================================================ -->
+<section id="why">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <p class="eyebrow">Neden BrainOfMedia</p>
+      <h2 class="heading-lg">Sadece site değil,<br/><em>dijital ortak.</em></h2>
+    </div>
+
+    <div class="why-grid">
+
+      <div class="why-card reveal">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        <div class="why-title">3 Günde Teslim</div>
+        <p class="why-text">Standart projelerde 3–5 gün teslimat garantisi. Rakamlar biz için konuşur.</p>
+      </div>
+
+      <div class="why-card reveal">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+        </svg>
+        <div class="why-title">7/24 WhatsApp Destek</div>
+        <p class="why-text">Soru sormak için randevu gerekmez. Her zaman ulaşabilirsiniz, anında dönüş yapıyoruz.</p>
+      </div>
+
+      <div class="why-card reveal">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <div class="why-title">Sözleşmeli Güvence</div>
+        <p class="why-text">Her projede yazılı anlaşma. Ne teslim edeceğimiz, ne zaman, ne kadar — hepsi netleştirilmiş.</p>
+      </div>
+
+      <div class="why-card reveal">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+        <div class="why-title">Yerel Piyasayı Biliyoruz</div>
+        <p class="why-text">Türk tüketici alışkanlıklarını ve lokal SEO dinamiklerini bilen bir ekiple çalışın.</p>
+      </div>
+
+      <div class="why-card reveal">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        </svg>
+        <div class="why-title">Ölçülebilir Sonuçlar</div>
+        <p class="why-text">Google Analytics raporu, arama görünürlüğü ve dönüşüm takibi ile her şeyi sayılarla görürsünüz.</p>
+      </div>
+
+      <div class="why-card reveal">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <div class="why-title">Sektörünüze Özel İçerik</div>
+        <p class="why-text">Restoran, klinik veya butik — sektörünüzün dilini bilen kopyalar ve görseller yazıyoruz.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BANNER
+     ============================================================ -->
+<section id="cta">
+  <div class="container cta-inner reveal">
+    <p class="eyebrow">Hazır mısınız?</p>
+    <h2 class="heading-xl">
+      Yolculuğunuza<br/><em>bugün</em> başlayın.
+    </h2>
+    <p>
+      Ücretsiz görüşme için WhatsApp'tan yazın. 15 dakikada projenizin
+      ne kadara ve ne kadar sürede çıkacağını netleştirelim.
+    </p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/905XXXXXXXXX?text=Merhaba%2C%20web%20sitem%20için%20ücretsiz%20görüşme%20yapmak%20istiyorum."
+         class="btn btn-whatsapp" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor"><path d="M16 1C7.7 1 1 7.7 1 16c0 2.7.7 5.2 1.9 7.4L1 31l7.9-1.9C11 30.3 13.4 31 16 31c8.3 0 15-6.7 15-15S24.3 1 16 1zm7.8 19c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.6-.2-.9.2-.3.4-1 1.3-1.2 1.6-.2.3-.5.4-.9.1-.4-.2-1.6-.6-3-1.8-1.1-1-1.8-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.7 0-.2 0-.5-.1-.7-.2-.2-1-2.4-1.3-3.3-.3-.8-.7-.7-.9-.7-.2 0-.5 0-.8 0-.3 0-.7.1-1 .5C9 10.4 8 11.4 8 13.5c0 2.1 1.5 4.2 1.7 4.5.2.3 3 4.6 7.3 6.4 1 .4 1.8.7 2.4.9.9.3 1.8.3 2.4.2.7-.1 2.2-.9 2.5-1.8.3-.8.3-1.5.2-1.7-.1-.2-.4-.3-.8-.5z"/></svg>
+        WhatsApp'tan Yaz
+      </a>
+      <a href="mailto:brainofmediaglobal@gmail.com" class="btn btn-ghost">
+        E-posta Gönder
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="dot"></div>
+          BrainOfMedia
+        </div>
+        <p>Küçük işletmelerin dijital geleceğini inşa ediyoruz. İstanbul merkezli, Türkiye geneli hizmet.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Hizmetler</h4>
+        <ul>
+          <li><a href="#builders">Web Tasarım</a></li>
+          <li><a href="#builders">Logo &amp; Marka</a></li>
+          <li><a href="#builders">SEO</a></li>
+          <li><a href="#builders">Sosyal Medya</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Şirket</h4>
+        <ul>
+          <li><a href="#portfolio">Portföy</a></li>
+          <li><a href="#pricing">Fiyatlar</a></li>
+          <li><a href="#why">Neden Biz</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>İletişim</h4>
+        <ul>
+          <li><a href="https://wa.me/905XXXXXXXXX" target="_blank">WhatsApp</a></li>
+          <li><a href="mailto:brainofmediaglobal@gmail.com">E-posta</a></li>
+          <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 BrainOfMedia / Brainod Media Global. Tüm hakları saklıdır.</p>
+      <p style="color:var(--text-dim);">İstanbul, Türkiye</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+  /* ----------------------------------------------------------
+     1. STARFIELD CANVAS
+     ---------------------------------------------------------- */
+  (function() {
+    const canvas = document.getElementById('starfield');
+    const ctx    = canvas.getContext('2d');
+    let W, H, stars;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
     }
 
-    function Hero() {
-      const cards = [
-        { title: "KUŞADASI OTELİ", metric: "+38%", desc: "Daha fazla rezervasyon", tags: ["Mobil Uyumlu", "Google SEO", "2 Haftada Teslim"] },
-        { title: "RESTORAN SİTESİ", metric: "+57%", desc: "Online rezervasyon artışı", tags: ["Hız Optimize", "QR Menü"] },
-        { title: "AI MÜŞTERİ ASİSTANI", metric: "7/24", desc: "Otomatik cevap", tags: ["Otomasyon", "Entegrasyon"] }
-      ];
-
-      return React.createElement('section', { className: "min-h-screen pt-32 pb-20 flex items-center relative overflow-hidden" },
-        React.createElement('div', { className: "max-w-screen-2xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center" },
-          
-          // Sol Taraf
-          React.createElement('div', { className: "lg:col-span-7 space-y-8" },
-            React.createElement('div', { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm" },
-              React.createElement('span', { className: "w-2 h-2 bg-emerald-500 rounded-full animate-pulse" }), 
-              "Yeni proje kabul ediyorum"
-            ),
-            React.createElement('h1', { className: "hero-text font-bold tracking-tighter" }, 
-              "Web Sitesinden Fazlası.\nİşletmenizi\nİnternette\nBüyüten\nDijital Deneyimler."
-            ),
-            React.createElement('p', { className: "text-xl text-[#8A90A5] max-w-lg" }, 
-              "Modern web siteleri, yapay zeka otomasyonları ve güçlü dijital deneyimler tasarlıyorum."
-            ),
-            React.createElement('div', { className: "flex gap-4" },
-              React.createElement('a', { 
-                href: "#projeler", 
-                className: "px-8 py-4 bg-[#3B5FFF] hover:bg-[#2e4fe6] rounded-2xl font-semibold text-lg transition-all" 
-              }, "Çalışmalarımı Gör"),
-              React.createElement('a', { 
-                href: "https://wa.me/905555555555", 
-                target: "_blank",
-                className: "px-8 py-4 border border-white/20 hover:bg-white/5 rounded-2xl font-semibold text-lg transition-all" 
-              }, "WhatsApp'tan Yaz")
-            )
-          ),
-
-          // Sağ Taraf - Kartlar
-          React.createElement('div', { className: "lg:col-span-5 space-y-6" },
-            cards.map((card, i) => 
-              React.createElement(motion.div, {
-                key: i,
-                initial: { opacity: 0, y: 60 },
-                animate: { opacity: 1, y: 0 },
-                transition: { delay: 0.15 * i },
-                whileHover: { y: -12, transition: { duration: 0.4 } },
-                className: "glass rounded-3xl p-8"
-              },
-                React.createElement('div', { className: "flex justify-between" },
-                  React.createElement('div', null,
-                    React.createElement('div', { className: "uppercase text-xs tracking-widest text-[#8A90A5]" }, card.title),
-                    React.createElement('div', { className: "text-5xl font-bold text-[#3B5FFF] tracking-tighter mt-2" }, card.metric)
-                  )
-                ),
-                React.createElement('p', { className: "mt-6 text-lg" }, card.desc),
-                React.createElement('div', { className: "mt-6 flex flex-wrap gap-2" },
-                  card.tags.map(tag => 
-                    React.createElement('span', { 
-                      key: tag,
-                      className: "text-xs px-4 py-2 bg-white/5 border border-white/10 rounded-2xl" 
-                    }, tag)
-                  )
-                )
-              )
-            )
-          )
-        )
-      );
+    function mkStars(n) {
+      return Array.from({ length: n }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.2,
+        a: Math.random(),
+        speed: Math.random() * 0.003 + 0.001,
+        phase: Math.random() * Math.PI * 2,
+      }));
     }
 
-    // Diğer bileşenler (kısaltılmış ama premium)
-    function Trust() {
-      const features = [
-        {icon:"⚡", title:"Hızlı Teslim"},
-        {icon:"📱", title:"Mobil Uyumlu"},
-        {icon:"🔍", title:"SEO Uyumlu"},
-        {icon:"🤖", title:"Yapay Zeka Entegrasyonu"}
-      ];
-
-      return React.createElement('section', { id: "hizmetler", className: "py-32 border-t border-white/5" },
-        React.createElement('div', { className: "max-w-screen-2xl mx-auto px-8" },
-          React.createElement('h2', { className: "text-5xl font-semibold text-center mb-16" }, "İşletmeler Neden BOF MEDIA'yı Seçiyor?"),
-          React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-4 gap-6" },
-            features.map((f,i) => 
-              React.createElement(motion.div, {
-                initial: { opacity: 0, y: 30 },
-                whileInView: { opacity: 1, y: 0 },
-                viewport: { once: true },
-                className: "glass rounded-3xl p-10 text-center"
-              },
-                React.createElement('div', { className: "text-5xl mb-6" }, f.icon),
-                React.createElement('h3', { className: "text-2xl font-semibold" }, f.title)
-              )
-            )
-          )
-        )
-      );
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      for (const s of stars) {
+        s.a = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed + s.phase));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${s.r > 0.8 ? '0,229,255' : '200,220,255'},${s.a})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
     }
 
-    function App() {
-      return React.createElement('div', {},
-        React.createElement(Navbar),
-        React.createElement(Hero),
-        React.createElement(Trust)
-        // İstersen Portfolio, Process, About, CTA, Footer da ekleyebilirim
-      );
-    }
+    resize();
+    stars = mkStars(220);
+    window.addEventListener('resize', () => { resize(); stars = mkStars(220); });
+    requestAnimationFrame(draw);
+  })();
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(React.createElement(App));
-  </script>
+  /* ----------------------------------------------------------
+     2. NAV SCROLL EFFECT
+     ---------------------------------------------------------- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* ----------------------------------------------------------
+     3. REVEAL ON SCROLL (IntersectionObserver)
+     ---------------------------------------------------------- */
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        // Stagger siblings slightly
+        const delay = Array.from(e.target.parentElement.querySelectorAll('.reveal')).indexOf(e.target) * 80;
+        setTimeout(() => e.target.classList.add('visible'), delay);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  /* ----------------------------------------------------------
+     4. COUNTER ANIMATION
+     ---------------------------------------------------------- */
+  function animateCounters() {
+    document.querySelectorAll('[data-target]').forEach(el => {
+      const target = parseFloat(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1800;
+      const start = performance.now();
+
+      function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        const value = Math.round(ease * target);
+        el.textContent = value + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // Trigger counters when metrics section is visible
+  const metricsSection = document.getElementById('metrics');
+  const counterIO = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      animateCounters();
+      counterIO.unobserve(metricsSection);
+    }
+  }, { threshold: 0.3 });
+  counterIO.observe(metricsSection);
+
+  /* ----------------------------------------------------------
+     5. MOBILE MENU
+     ---------------------------------------------------------- */
+  function openMobileMenu()  { document.getElementById('mobile-menu').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMobileMenu() { document.getElementById('mobile-menu').classList.remove('open'); document.body.style.overflow=''; }
+
+  /* ----------------------------------------------------------
+     6. PARALLAX — hero subtitle subtle drift
+     ---------------------------------------------------------- */
+  const heroSub = document.querySelector('.hero-sub');
+  if (heroSub && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      heroSub.style.transform = `translateY(${y * 0.08}px)`;
+    }, { passive: true });
+  }
+</script>
+
 </body>
 </html>
